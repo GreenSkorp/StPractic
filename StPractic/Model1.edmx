@@ -1,0 +1,1226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище KIPLangModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="achievements">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" />
+          <Property Name="description" Type="nvarchar" MaxLength="255" />
+          <Property Name="icon_url" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="courses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="language_id" Type="int" Nullable="false" />
+          <Property Name="teacher_id" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="description" Type="text" Nullable="false" />
+          <Property Name="level" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="created_at" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="enrollments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="course_id" Type="int" Nullable="false" />
+          <Property Name="enrollment_date" Type="date" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="exercises">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="lesson_id" Type="int" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="question" Type="text" Nullable="false" />
+          <Property Name="correct_answer" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="languages">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="lessons">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="course_id" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="content" Type="text" Nullable="false" />
+          <Property Name="order_num" Type="int" Nullable="false" />
+          <Property Name="duration" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="payments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="course_id" Type="int" Nullable="false" />
+          <Property Name="amount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="payment_date" Type="date" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="reviews">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="course_id" Type="int" Nullable="false" />
+          <Property Name="rating" Type="int" Nullable="false" />
+          <Property Name="comment" Type="text" />
+          <Property Name="review_date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="test_answers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="question_id" Type="int" Nullable="false" />
+          <Property Name="answer_text" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="is_correct" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="test_questions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="test_id" Type="int" Nullable="false" />
+          <Property Name="question" Type="text" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="test_results">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="test_id" Type="int" Nullable="false" />
+          <Property Name="score" Type="int" Nullable="false" />
+          <Property Name="result_date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="lesson_id" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_achievements">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="achievement_id" Type="int" Nullable="false" />
+          <Property Name="date_received" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user_progress">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="lesson_id" Type="int" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="score" Type="int" Nullable="false" />
+          <Property Name="completed_at" Type="date" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="login" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="full_name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="password_hash" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="role" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="registration_date" Type="date" Nullable="false" />
+          <Property Name="avatar_url" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__courses__languag__70DDC3D8">
+          <End Role="languages" Type="Self.languages" Multiplicity="1" />
+          <End Role="courses" Type="Self.courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="languages">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="courses">
+              <PropertyRef Name="language_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__courses__teacher__5165187F">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="courses" Type="Self.courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="courses">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__enrollmen__cours__75A278F5">
+          <End Role="courses" Type="Self.courses" Multiplicity="1" />
+          <End Role="enrollments" Type="Self.enrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="courses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="enrollments">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__enrollmen__user___74AE54BC">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="enrollments" Type="Self.enrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="enrollments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__exercises__lesso__534D60F1">
+          <End Role="lessons" Type="Self.lessons" Multiplicity="1" />
+          <End Role="exercises" Type="Self.exercises" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lessons">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="exercises">
+              <PropertyRef Name="lesson_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__lessons__course___52593CB8">
+          <End Role="courses" Type="Self.courses" Multiplicity="1" />
+          <End Role="lessons" Type="Self.lessons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="courses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="lessons">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__payments__course__778AC167">
+          <End Role="courses" Type="Self.courses" Multiplicity="1" />
+          <End Role="payments" Type="Self.payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="courses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="payments">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__payments__user_i__5629CD9C">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="payments" Type="Self.payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="payments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__reviews__course___00200768">
+          <End Role="courses" Type="Self.courses" Multiplicity="1" />
+          <End Role="reviews" Type="Self.reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="courses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="reviews">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__reviews__user_id__7F2BE32F">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="reviews" Type="Self.reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="reviews">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__test_answ__quest__7C4F7684">
+          <End Role="test_questions" Type="Self.test_questions" Multiplicity="1" />
+          <End Role="test_answers" Type="Self.test_answers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="test_questions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="test_answers">
+              <PropertyRef Name="question_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__test_ques__test___7B5B524B">
+          <End Role="tests" Type="Self.tests" Multiplicity="1" />
+          <End Role="test_questions" Type="Self.test_questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="test_questions">
+              <PropertyRef Name="test_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__test_resu__test___5CD6CB2B">
+          <End Role="tests" Type="Self.tests" Multiplicity="1" />
+          <End Role="test_results" Type="Self.test_results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="test_results">
+              <PropertyRef Name="test_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__test_resu__user___5BE2A6F2">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="test_results" Type="Self.test_results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="test_results">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tests__lesson_id__59FA5E80">
+          <End Role="lessons" Type="Self.lessons" Multiplicity="1" />
+          <End Role="tests" Type="Self.tests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lessons">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tests">
+              <PropertyRef Name="lesson_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user_achi__achie__02084FDA">
+          <End Role="achievements" Type="Self.achievements" Multiplicity="1" />
+          <End Role="user_achievements" Type="Self.user_achievements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="achievements">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_achievements">
+              <PropertyRef Name="achievement_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user_achi__user___01142BA1">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="user_achievements" Type="Self.user_achievements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_achievements">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user_prog__lesso__59063A47">
+          <End Role="lessons" Type="Self.lessons" Multiplicity="1" />
+          <End Role="user_progress" Type="Self.user_progress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lessons">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_progress">
+              <PropertyRef Name="lesson_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user_prog__user___787EE5A0">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="user_progress" Type="Self.user_progress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_progress">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище KIPLangModelContainer">
+          <EntitySet Name="achievements" EntityType="Self.achievements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="courses" EntityType="Self.courses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="enrollments" EntityType="Self.enrollments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="exercises" EntityType="Self.exercises" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="languages" EntityType="Self.languages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lessons" EntityType="Self.lessons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="payments" EntityType="Self.payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reviews" EntityType="Self.reviews" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="test_answers" EntityType="Self.test_answers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="test_questions" EntityType="Self.test_questions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="test_results" EntityType="Self.test_results" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tests" EntityType="Self.tests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_achievements" EntityType="Self.user_achievements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_progress" EntityType="Self.user_progress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__courses__languag__70DDC3D8" Association="Self.FK__courses__languag__70DDC3D8">
+            <End Role="languages" EntitySet="languages" />
+            <End Role="courses" EntitySet="courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__courses__teacher__5165187F" Association="Self.FK__courses__teacher__5165187F">
+            <End Role="users" EntitySet="users" />
+            <End Role="courses" EntitySet="courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__enrollmen__cours__75A278F5" Association="Self.FK__enrollmen__cours__75A278F5">
+            <End Role="courses" EntitySet="courses" />
+            <End Role="enrollments" EntitySet="enrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__enrollmen__user___74AE54BC" Association="Self.FK__enrollmen__user___74AE54BC">
+            <End Role="users" EntitySet="users" />
+            <End Role="enrollments" EntitySet="enrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__exercises__lesso__534D60F1" Association="Self.FK__exercises__lesso__534D60F1">
+            <End Role="lessons" EntitySet="lessons" />
+            <End Role="exercises" EntitySet="exercises" />
+          </AssociationSet>
+          <AssociationSet Name="FK__lessons__course___52593CB8" Association="Self.FK__lessons__course___52593CB8">
+            <End Role="courses" EntitySet="courses" />
+            <End Role="lessons" EntitySet="lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__payments__course__778AC167" Association="Self.FK__payments__course__778AC167">
+            <End Role="courses" EntitySet="courses" />
+            <End Role="payments" EntitySet="payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__payments__user_i__5629CD9C" Association="Self.FK__payments__user_i__5629CD9C">
+            <End Role="users" EntitySet="users" />
+            <End Role="payments" EntitySet="payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__reviews__course___00200768" Association="Self.FK__reviews__course___00200768">
+            <End Role="courses" EntitySet="courses" />
+            <End Role="reviews" EntitySet="reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__reviews__user_id__7F2BE32F" Association="Self.FK__reviews__user_id__7F2BE32F">
+            <End Role="users" EntitySet="users" />
+            <End Role="reviews" EntitySet="reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__test_answ__quest__7C4F7684" Association="Self.FK__test_answ__quest__7C4F7684">
+            <End Role="test_questions" EntitySet="test_questions" />
+            <End Role="test_answers" EntitySet="test_answers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__test_ques__test___7B5B524B" Association="Self.FK__test_ques__test___7B5B524B">
+            <End Role="tests" EntitySet="tests" />
+            <End Role="test_questions" EntitySet="test_questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__test_resu__test___5CD6CB2B" Association="Self.FK__test_resu__test___5CD6CB2B">
+            <End Role="tests" EntitySet="tests" />
+            <End Role="test_results" EntitySet="test_results" />
+          </AssociationSet>
+          <AssociationSet Name="FK__test_resu__user___5BE2A6F2" Association="Self.FK__test_resu__user___5BE2A6F2">
+            <End Role="users" EntitySet="users" />
+            <End Role="test_results" EntitySet="test_results" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tests__lesson_id__59FA5E80" Association="Self.FK__tests__lesson_id__59FA5E80">
+            <End Role="lessons" EntitySet="lessons" />
+            <End Role="tests" EntitySet="tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user_achi__achie__02084FDA" Association="Self.FK__user_achi__achie__02084FDA">
+            <End Role="achievements" EntitySet="achievements" />
+            <End Role="user_achievements" EntitySet="user_achievements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user_achi__user___01142BA1" Association="Self.FK__user_achi__user___01142BA1">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_achievements" EntitySet="user_achievements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user_prog__lesso__59063A47" Association="Self.FK__user_prog__lesso__59063A47">
+            <End Role="lessons" EntitySet="lessons" />
+            <End Role="user_progress" EntitySet="user_progress" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user_prog__user___787EE5A0" Association="Self.FK__user_prog__user___787EE5A0">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_progress" EntitySet="user_progress" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KIPLangModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="achievements">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="icon_url" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="user_achievements" Relationship="Self.FK__user_achi__achie__02084FDA" FromRole="achievements" ToRole="user_achievements" />
+        </EntityType>
+        <EntityType Name="courses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="language_id" Type="Int32" Nullable="false" />
+          <Property Name="teacher_id" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="level" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="languages" Relationship="Self.FK__courses__languag__70DDC3D8" FromRole="courses" ToRole="languages" />
+          <NavigationProperty Name="users" Relationship="Self.FK__courses__teacher__5165187F" FromRole="courses" ToRole="users" />
+          <NavigationProperty Name="enrollments" Relationship="Self.FK__enrollmen__cours__75A278F5" FromRole="courses" ToRole="enrollments" />
+          <NavigationProperty Name="lessons" Relationship="Self.FK__lessons__course___52593CB8" FromRole="courses" ToRole="lessons" />
+          <NavigationProperty Name="payments" Relationship="Self.FK__payments__course__778AC167" FromRole="courses" ToRole="payments" />
+          <NavigationProperty Name="reviews" Relationship="Self.FK__reviews__course___00200768" FromRole="courses" ToRole="reviews" />
+        </EntityType>
+        <EntityType Name="enrollments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="course_id" Type="Int32" Nullable="false" />
+          <Property Name="enrollment_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="courses" Relationship="Self.FK__enrollmen__cours__75A278F5" FromRole="enrollments" ToRole="courses" />
+          <NavigationProperty Name="users" Relationship="Self.FK__enrollmen__user___74AE54BC" FromRole="enrollments" ToRole="users" />
+        </EntityType>
+        <EntityType Name="exercises">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="lesson_id" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="question" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="correct_answer" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="lessons" Relationship="Self.FK__exercises__lesso__534D60F1" FromRole="exercises" ToRole="lessons" />
+        </EntityType>
+        <EntityType Name="languages">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="courses" Relationship="Self.FK__courses__languag__70DDC3D8" FromRole="languages" ToRole="courses" />
+        </EntityType>
+        <EntityType Name="lessons">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="course_id" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="order_num" Type="Int32" Nullable="false" />
+          <Property Name="duration" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="courses" Relationship="Self.FK__lessons__course___52593CB8" FromRole="lessons" ToRole="courses" />
+          <NavigationProperty Name="exercises" Relationship="Self.FK__exercises__lesso__534D60F1" FromRole="lessons" ToRole="exercises" />
+          <NavigationProperty Name="tests" Relationship="Self.FK__tests__lesson_id__59FA5E80" FromRole="lessons" ToRole="tests" />
+          <NavigationProperty Name="user_progress" Relationship="Self.FK__user_prog__lesso__59063A47" FromRole="lessons" ToRole="user_progress" />
+        </EntityType>
+        <EntityType Name="payments">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="course_id" Type="Int32" Nullable="false" />
+          <Property Name="amount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="payment_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="courses" Relationship="Self.FK__payments__course__778AC167" FromRole="payments" ToRole="courses" />
+          <NavigationProperty Name="users" Relationship="Self.FK__payments__user_i__5629CD9C" FromRole="payments" ToRole="users" />
+        </EntityType>
+        <EntityType Name="reviews">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="course_id" Type="Int32" Nullable="false" />
+          <Property Name="rating" Type="Int32" Nullable="false" />
+          <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="review_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="courses" Relationship="Self.FK__reviews__course___00200768" FromRole="reviews" ToRole="courses" />
+          <NavigationProperty Name="users" Relationship="Self.FK__reviews__user_id__7F2BE32F" FromRole="reviews" ToRole="users" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="test_answers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="question_id" Type="Int32" Nullable="false" />
+          <Property Name="answer_text" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="is_correct" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="test_questions" Relationship="Self.FK__test_answ__quest__7C4F7684" FromRole="test_answers" ToRole="test_questions" />
+        </EntityType>
+        <EntityType Name="test_questions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="test_id" Type="Int32" Nullable="false" />
+          <Property Name="question" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="test_answers" Relationship="Self.FK__test_answ__quest__7C4F7684" FromRole="test_questions" ToRole="test_answers" />
+          <NavigationProperty Name="tests" Relationship="Self.FK__test_ques__test___7B5B524B" FromRole="test_questions" ToRole="tests" />
+        </EntityType>
+        <EntityType Name="test_results">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="test_id" Type="Int32" Nullable="false" />
+          <Property Name="score" Type="Int32" Nullable="false" />
+          <Property Name="result_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="tests" Relationship="Self.FK__test_resu__test___5CD6CB2B" FromRole="test_results" ToRole="tests" />
+          <NavigationProperty Name="users" Relationship="Self.FK__test_resu__user___5BE2A6F2" FromRole="test_results" ToRole="users" />
+        </EntityType>
+        <EntityType Name="tests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="lesson_id" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="lessons" Relationship="Self.FK__tests__lesson_id__59FA5E80" FromRole="tests" ToRole="lessons" />
+          <NavigationProperty Name="test_questions" Relationship="Self.FK__test_ques__test___7B5B524B" FromRole="tests" ToRole="test_questions" />
+          <NavigationProperty Name="test_results" Relationship="Self.FK__test_resu__test___5CD6CB2B" FromRole="tests" ToRole="test_results" />
+        </EntityType>
+        <EntityType Name="user_achievements">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="achievement_id" Type="Int32" Nullable="false" />
+          <Property Name="date_received" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="achievements" Relationship="Self.FK__user_achi__achie__02084FDA" FromRole="user_achievements" ToRole="achievements" />
+          <NavigationProperty Name="users" Relationship="Self.FK__user_achi__user___01142BA1" FromRole="user_achievements" ToRole="users" />
+        </EntityType>
+        <EntityType Name="user_progress">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="lesson_id" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="score" Type="Int32" Nullable="false" />
+          <Property Name="completed_at" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="lessons" Relationship="Self.FK__user_prog__lesso__59063A47" FromRole="user_progress" ToRole="lessons" />
+          <NavigationProperty Name="users" Relationship="Self.FK__user_prog__user___787EE5A0" FromRole="user_progress" ToRole="users" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="full_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password_hash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="registration_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="avatar_url" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="courses" Relationship="Self.FK__courses__teacher__5165187F" FromRole="users" ToRole="courses" />
+          <NavigationProperty Name="enrollments" Relationship="Self.FK__enrollmen__user___74AE54BC" FromRole="users" ToRole="enrollments" />
+          <NavigationProperty Name="payments" Relationship="Self.FK__payments__user_i__5629CD9C" FromRole="users" ToRole="payments" />
+          <NavigationProperty Name="reviews" Relationship="Self.FK__reviews__user_id__7F2BE32F" FromRole="users" ToRole="reviews" />
+          <NavigationProperty Name="test_results" Relationship="Self.FK__test_resu__user___5BE2A6F2" FromRole="users" ToRole="test_results" />
+          <NavigationProperty Name="user_achievements" Relationship="Self.FK__user_achi__user___01142BA1" FromRole="users" ToRole="user_achievements" />
+          <NavigationProperty Name="user_progress" Relationship="Self.FK__user_prog__user___787EE5A0" FromRole="users" ToRole="user_progress" />
+        </EntityType>
+        <Association Name="FK__user_achi__achie__02084FDA">
+          <End Role="achievements" Type="Self.achievements" Multiplicity="1" />
+          <End Role="user_achievements" Type="Self.user_achievements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="achievements">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_achievements">
+              <PropertyRef Name="achievement_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__courses__languag__70DDC3D8">
+          <End Role="languages" Type="Self.languages" Multiplicity="1" />
+          <End Role="courses" Type="Self.courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="languages">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="courses">
+              <PropertyRef Name="language_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__courses__teacher__5165187F">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="courses" Type="Self.courses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="courses">
+              <PropertyRef Name="teacher_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__enrollmen__cours__75A278F5">
+          <End Role="courses" Type="Self.courses" Multiplicity="1" />
+          <End Role="enrollments" Type="Self.enrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="courses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="enrollments">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__lessons__course___52593CB8">
+          <End Role="courses" Type="Self.courses" Multiplicity="1" />
+          <End Role="lessons" Type="Self.lessons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="courses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="lessons">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__payments__course__778AC167">
+          <End Role="courses" Type="Self.courses" Multiplicity="1" />
+          <End Role="payments" Type="Self.payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="courses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="payments">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__reviews__course___00200768">
+          <End Role="courses" Type="Self.courses" Multiplicity="1" />
+          <End Role="reviews" Type="Self.reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="courses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="reviews">
+              <PropertyRef Name="course_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__enrollmen__user___74AE54BC">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="enrollments" Type="Self.enrollments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="enrollments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__exercises__lesso__534D60F1">
+          <End Role="lessons" Type="Self.lessons" Multiplicity="1" />
+          <End Role="exercises" Type="Self.exercises" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lessons">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="exercises">
+              <PropertyRef Name="lesson_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tests__lesson_id__59FA5E80">
+          <End Role="lessons" Type="Self.lessons" Multiplicity="1" />
+          <End Role="tests" Type="Self.tests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lessons">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tests">
+              <PropertyRef Name="lesson_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user_prog__lesso__59063A47">
+          <End Role="lessons" Type="Self.lessons" Multiplicity="1" />
+          <End Role="user_progress" Type="Self.user_progress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lessons">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_progress">
+              <PropertyRef Name="lesson_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__payments__user_i__5629CD9C">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="payments" Type="Self.payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="payments">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__reviews__user_id__7F2BE32F">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="reviews" Type="Self.reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="reviews">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__test_answ__quest__7C4F7684">
+          <End Role="test_questions" Type="Self.test_questions" Multiplicity="1" />
+          <End Role="test_answers" Type="Self.test_answers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="test_questions">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="test_answers">
+              <PropertyRef Name="question_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__test_ques__test___7B5B524B">
+          <End Role="tests" Type="Self.tests" Multiplicity="1" />
+          <End Role="test_questions" Type="Self.test_questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="test_questions">
+              <PropertyRef Name="test_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__test_resu__test___5CD6CB2B">
+          <End Role="tests" Type="Self.tests" Multiplicity="1" />
+          <End Role="test_results" Type="Self.test_results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="test_results">
+              <PropertyRef Name="test_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__test_resu__user___5BE2A6F2">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="test_results" Type="Self.test_results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="test_results">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user_achi__user___01142BA1">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="user_achievements" Type="Self.user_achievements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_achievements">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__user_prog__user___787EE5A0">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="user_progress" Type="Self.user_progress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_progress">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KIPLangEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="achievements" EntityType="Self.achievements" />
+          <EntitySet Name="courses" EntityType="Self.courses" />
+          <EntitySet Name="enrollments" EntityType="Self.enrollments" />
+          <EntitySet Name="exercises" EntityType="Self.exercises" />
+          <EntitySet Name="languages" EntityType="Self.languages" />
+          <EntitySet Name="lessons" EntityType="Self.lessons" />
+          <EntitySet Name="payments" EntityType="Self.payments" />
+          <EntitySet Name="reviews" EntityType="Self.reviews" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="test_answers" EntityType="Self.test_answers" />
+          <EntitySet Name="test_questions" EntityType="Self.test_questions" />
+          <EntitySet Name="test_results" EntityType="Self.test_results" />
+          <EntitySet Name="tests" EntityType="Self.tests" />
+          <EntitySet Name="user_achievements" EntityType="Self.user_achievements" />
+          <EntitySet Name="user_progress" EntityType="Self.user_progress" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <AssociationSet Name="FK__user_achi__achie__02084FDA" Association="Self.FK__user_achi__achie__02084FDA">
+            <End Role="achievements" EntitySet="achievements" />
+            <End Role="user_achievements" EntitySet="user_achievements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__courses__languag__70DDC3D8" Association="Self.FK__courses__languag__70DDC3D8">
+            <End Role="languages" EntitySet="languages" />
+            <End Role="courses" EntitySet="courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__courses__teacher__5165187F" Association="Self.FK__courses__teacher__5165187F">
+            <End Role="users" EntitySet="users" />
+            <End Role="courses" EntitySet="courses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__enrollmen__cours__75A278F5" Association="Self.FK__enrollmen__cours__75A278F5">
+            <End Role="courses" EntitySet="courses" />
+            <End Role="enrollments" EntitySet="enrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__lessons__course___52593CB8" Association="Self.FK__lessons__course___52593CB8">
+            <End Role="courses" EntitySet="courses" />
+            <End Role="lessons" EntitySet="lessons" />
+          </AssociationSet>
+          <AssociationSet Name="FK__payments__course__778AC167" Association="Self.FK__payments__course__778AC167">
+            <End Role="courses" EntitySet="courses" />
+            <End Role="payments" EntitySet="payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__reviews__course___00200768" Association="Self.FK__reviews__course___00200768">
+            <End Role="courses" EntitySet="courses" />
+            <End Role="reviews" EntitySet="reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__enrollmen__user___74AE54BC" Association="Self.FK__enrollmen__user___74AE54BC">
+            <End Role="users" EntitySet="users" />
+            <End Role="enrollments" EntitySet="enrollments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__exercises__lesso__534D60F1" Association="Self.FK__exercises__lesso__534D60F1">
+            <End Role="lessons" EntitySet="lessons" />
+            <End Role="exercises" EntitySet="exercises" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tests__lesson_id__59FA5E80" Association="Self.FK__tests__lesson_id__59FA5E80">
+            <End Role="lessons" EntitySet="lessons" />
+            <End Role="tests" EntitySet="tests" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user_prog__lesso__59063A47" Association="Self.FK__user_prog__lesso__59063A47">
+            <End Role="lessons" EntitySet="lessons" />
+            <End Role="user_progress" EntitySet="user_progress" />
+          </AssociationSet>
+          <AssociationSet Name="FK__payments__user_i__5629CD9C" Association="Self.FK__payments__user_i__5629CD9C">
+            <End Role="users" EntitySet="users" />
+            <End Role="payments" EntitySet="payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__reviews__user_id__7F2BE32F" Association="Self.FK__reviews__user_id__7F2BE32F">
+            <End Role="users" EntitySet="users" />
+            <End Role="reviews" EntitySet="reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__test_answ__quest__7C4F7684" Association="Self.FK__test_answ__quest__7C4F7684">
+            <End Role="test_questions" EntitySet="test_questions" />
+            <End Role="test_answers" EntitySet="test_answers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__test_ques__test___7B5B524B" Association="Self.FK__test_ques__test___7B5B524B">
+            <End Role="tests" EntitySet="tests" />
+            <End Role="test_questions" EntitySet="test_questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__test_resu__test___5CD6CB2B" Association="Self.FK__test_resu__test___5CD6CB2B">
+            <End Role="tests" EntitySet="tests" />
+            <End Role="test_results" EntitySet="test_results" />
+          </AssociationSet>
+          <AssociationSet Name="FK__test_resu__user___5BE2A6F2" Association="Self.FK__test_resu__user___5BE2A6F2">
+            <End Role="users" EntitySet="users" />
+            <End Role="test_results" EntitySet="test_results" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user_achi__user___01142BA1" Association="Self.FK__user_achi__user___01142BA1">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_achievements" EntitySet="user_achievements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__user_prog__user___787EE5A0" Association="Self.FK__user_prog__user___787EE5A0">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_progress" EntitySet="user_progress" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище KIPLangModelContainer" CdmEntityContainer="KIPLangEntities">
+          <EntitySetMapping Name="achievements">
+            <EntityTypeMapping TypeName="KIPLangModel.achievements">
+              <MappingFragment StoreEntitySet="achievements">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="icon_url" ColumnName="icon_url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="courses">
+            <EntityTypeMapping TypeName="KIPLangModel.courses">
+              <MappingFragment StoreEntitySet="courses">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="language_id" ColumnName="language_id" />
+                <ScalarProperty Name="teacher_id" ColumnName="teacher_id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="level" ColumnName="level" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="enrollments">
+            <EntityTypeMapping TypeName="KIPLangModel.enrollments">
+              <MappingFragment StoreEntitySet="enrollments">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+                <ScalarProperty Name="enrollment_date" ColumnName="enrollment_date" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exercises">
+            <EntityTypeMapping TypeName="KIPLangModel.exercises">
+              <MappingFragment StoreEntitySet="exercises">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="lesson_id" ColumnName="lesson_id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="question" ColumnName="question" />
+                <ScalarProperty Name="correct_answer" ColumnName="correct_answer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="languages">
+            <EntityTypeMapping TypeName="KIPLangModel.languages">
+              <MappingFragment StoreEntitySet="languages">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="code" ColumnName="code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lessons">
+            <EntityTypeMapping TypeName="KIPLangModel.lessons">
+              <MappingFragment StoreEntitySet="lessons">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="order_num" ColumnName="order_num" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payments">
+            <EntityTypeMapping TypeName="KIPLangModel.payments">
+              <MappingFragment StoreEntitySet="payments">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="payment_date" ColumnName="payment_date" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reviews">
+            <EntityTypeMapping TypeName="KIPLangModel.reviews">
+              <MappingFragment StoreEntitySet="reviews">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="course_id" ColumnName="course_id" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="review_date" ColumnName="review_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="KIPLangModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="test_answers">
+            <EntityTypeMapping TypeName="KIPLangModel.test_answers">
+              <MappingFragment StoreEntitySet="test_answers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="question_id" ColumnName="question_id" />
+                <ScalarProperty Name="answer_text" ColumnName="answer_text" />
+                <ScalarProperty Name="is_correct" ColumnName="is_correct" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="test_questions">
+            <EntityTypeMapping TypeName="KIPLangModel.test_questions">
+              <MappingFragment StoreEntitySet="test_questions">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="test_id" ColumnName="test_id" />
+                <ScalarProperty Name="question" ColumnName="question" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="test_results">
+            <EntityTypeMapping TypeName="KIPLangModel.test_results">
+              <MappingFragment StoreEntitySet="test_results">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="test_id" ColumnName="test_id" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="result_date" ColumnName="result_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tests">
+            <EntityTypeMapping TypeName="KIPLangModel.tests">
+              <MappingFragment StoreEntitySet="tests">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="lesson_id" ColumnName="lesson_id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_achievements">
+            <EntityTypeMapping TypeName="KIPLangModel.user_achievements">
+              <MappingFragment StoreEntitySet="user_achievements">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="achievement_id" ColumnName="achievement_id" />
+                <ScalarProperty Name="date_received" ColumnName="date_received" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_progress">
+            <EntityTypeMapping TypeName="KIPLangModel.user_progress">
+              <MappingFragment StoreEntitySet="user_progress">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="lesson_id" ColumnName="lesson_id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="completed_at" ColumnName="completed_at" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="KIPLangModel.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password_hash" ColumnName="password_hash" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="registration_date" ColumnName="registration_date" />
+                <ScalarProperty Name="avatar_url" ColumnName="avatar_url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

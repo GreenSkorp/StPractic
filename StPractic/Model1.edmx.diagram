@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a1db1395924e481dadec4ebace2028d1" Name="Diagram1">
+        <EntityTypeShape EntityType="KIPLangModel.achievements" Width="1.5" PointX="3.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.courses" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.enrollments" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.exercises" Width="1.5" PointX="7.5" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.languages" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.lessons" Width="1.5" PointX="5.25" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.payments" Width="1.5" PointX="8.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.reviews" Width="1.5" PointX="11.25" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.test_answers" Width="1.5" PointX="12" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.test_questions" Width="1.5" PointX="9.75" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.test_results" Width="1.5" PointX="9.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.tests" Width="1.5" PointX="7.5" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.user_achievements" Width="1.5" PointX="6" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.user_progress" Width="1.5" PointX="8.5" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KIPLangModel.users" Width="1.5" PointX="0.75" PointY="12.125" IsExpanded="true" />
+        <AssociationConnector Association="KIPLangModel.FK__user_achi__achie__02084FDA" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__courses__languag__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__courses__teacher__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__enrollmen__cours__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__lessons__course___52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__payments__course__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__reviews__course___00200768" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__enrollmen__user___74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__exercises__lesso__534D60F1" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__tests__lesson_id__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__user_prog__lesso__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__payments__user_i__5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__reviews__user_id__7F2BE32F" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__test_answ__quest__7C4F7684" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__test_ques__test___7B5B524B" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__test_resu__test___5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__test_resu__user___5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__user_achi__user___01142BA1" ManuallyRouted="false" />
+        <AssociationConnector Association="KIPLangModel.FK__user_prog__user___787EE5A0" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

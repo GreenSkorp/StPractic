@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="StPractic.Pages.LoginElements.RegistrationPageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StPractic.Pages.LoginElements"
+             mc:Ignorable="d" 
+                        d:DesignHeight="500" d:DesignWidth="300" >
+    <Grid Background="{DynamicResource PrimaryColorBrushLightGrey}">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Content="Логин:" Margin="10 10 10 0" />
+            <TextBlock x:Name="LoginTextBlock" Width="200" Height="30" Margin="5" Background="{StaticResource PrimaryColorBrushWhite}"/>
+            <Label Content="Пароль:" Margin="10 10 10 0" />
+            <PasswordBox x:Name="PasswordBox" Width="200" Height="30" Margin="5" Background="{StaticResource PrimaryColorBrushWhite}"/>
+            <Button Content="Войти" Width="100" Height="30" Margin="10" Background="{StaticResource PrimaryColorBrushCyan}" Foreground="{StaticResource PrimaryColorBrushWhite}" Click="Button_Click"/>
+
+        </StackPanel>
+
+    </Grid>
+</UserControl>

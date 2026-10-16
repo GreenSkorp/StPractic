@@ -23,6 +23,7 @@ namespace StPractic
         public MainWindow()
         {
             InitializeComponent();
+            MainFrame.Navigate(new Pages.LoginPage());
         }
     }
 }
