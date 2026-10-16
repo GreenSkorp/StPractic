@@ -1,24 +1,10 @@
-﻿using StPractic.Pages.LoginElements;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace StPractic.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для LoginPage.xaml
-    /// </summary>
     public partial class LoginPage : Page
     {
         public LoginPage()
@@ -28,26 +14,46 @@ namespace StPractic.Pages
 
         private void LoginPageControl_Loaded(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("");   
-        }
-
-        private void StyleSwitchButtonLight_Checked(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void LightTheme_Checked(object sender, RoutedEventArgs e)
         {
-
+            SwitchTheme("LightTheme.xaml");
         }
+
         private void DarkTheme_Checked(object sender, RoutedEventArgs e)
         {
+            SwitchTheme("DarkTheme.xaml");
+        }
 
+        private void SwitchTheme(string themeFileName)
+        {
+            // Защита от вызова до инициализации Application
+            if (Application.Current == null) return;
+
+            try
+            {
+                var uri = new Uri($"pack://application:,,,/res/{themeFileName}",
+                                  UriKind.Absolute);
+
+                var dicts = Application.Current.Resources.MergedDictionaries;
+
+                var oldTheme = dicts.FirstOrDefault(d =>
+                    d.Source != null &&
+                    d.Source.OriginalString.Contains("Theme"));
+
+                if (oldTheme != null)
+                    dicts.Remove(oldTheme);
+
+                dicts.Add(new ResourceDictionary { Source = uri });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось загрузить тему '{themeFileName}':\n{ex.Message}",
+                                "Ошибка темы",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
+            }
         }
     }
 }

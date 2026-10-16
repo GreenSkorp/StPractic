@@ -1,39 +1,105 @@
 ﻿<Page x:Class="StPractic.Pages.LoginPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:StPractic.Pages.LoginElements"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="LoginPage" Background="{DynamicResource PrimaryColorBrushLightGrey}">
-
+      Title="LoginPage"
+      Background="{DynamicResource BrushBackground}">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-            <ToggleButton x:Name="StyleSwitchButtonLight" Grid.Row="0"  Margin="5 5 1 5" Width="80" Height="25" IsChecked="True"
-                          Checked="LightTheme_Checked" Unchecked="DarkTheme_Checked"/>
-            <ToggleButton x:Name="StyleSwitchButtonDark" Grid.Row="0"  Margin="1 5 5 5" Width="80" Height="25"
-                          Checked="DarkTheme_Checked" Unchecked="LightTheme_Checked"/>
-        </WrapPanel>
-        <Border  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
-            
-            <TabControl  Background="{DynamicResource PrimaryColorBrushLightGrey}" BorderThickness="1" Margin="20"
-                     Width="300" >
+
+        <!-- Сегментированный переключатель темы -->
+        <Border Grid.Row="0"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        Margin="0,0,15,0"
+        CornerRadius="6"
+        BorderBrush="{DynamicResource BrushBorder}"
+        BorderThickness="1"
+        Background="{DynamicResource BrushSurface}">
+
+            <Border.Resources>
+                <!-- Стиль сегмента (внутренней кнопки) -->
+                <Style x:Key="SegmentStyle" TargetType="RadioButton">
+                    <Setter Property="Padding" Value="16,6"/>
+                    <Setter Property="Foreground" Value="{DynamicResource BrushTextSecondary}"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="RadioButton">
+                                <Border x:Name="Bg"
+                                Background="Transparent"
+                                CornerRadius="5"
+                                Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bg"
+                                        Property="Background"
+                                        Value="{DynamicResource BrushSurfaceAlt}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter TargetName="Bg"
+                                        Property="Background"
+                                        Value="{DynamicResource BrushAccent}"/>
+                                        <Setter Property="Foreground"
+                                        Value="{DynamicResource BrushTextOnAccent}"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Border.Resources>
+
+            <StackPanel Orientation="Horizontal">
+                <RadioButton x:Name="LightThemeRadio"
+                     Content="Светлая"
+                     Style="{StaticResource SegmentStyle}"
+                     GroupName="ThemeSelector"
+                     IsChecked="True"
+                     Checked="LightTheme_Checked"/>
+
+                <RadioButton x:Name="DarkThemeRadio"
+                     Content="Тёмная"
+                     Style="{StaticResource SegmentStyle}"
+                     GroupName="ThemeSelector"
+                     Checked="DarkTheme_Checked"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Центральная панель с формой -->
+        <Border Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+            <TabControl 
+                        BorderThickness="1"
+                        Margin="20"
+                        Width="300">
+
                 <TabControl.Resources>
                     <Style TargetType="TabPanel">
                         <Setter Property="HorizontalAlignment" Value="Center"/>
                     </Style>
                 </TabControl.Resources>
-                <TabItem Header="Вход" Background="{DynamicResource PrimaryColorBrushLightGrey}" BorderThickness="0">
+
+                <TabItem Header="Вход">
                     <local:LoginPageControl Loaded="LoginPageControl_Loaded"/>
                 </TabItem>
-                <TabItem Header="Регистрация" Background="{DynamicResource PrimaryColorBrushLightGrey}" BorderThickness="0">
+
+                <TabItem Header="Регистрация">
                     <local:RegistrationPageControl/>
                 </TabItem>
             </TabControl>
