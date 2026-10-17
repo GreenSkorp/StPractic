@@ -3,35 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:StPractic.Pages.LoginElements"
-             mc:Ignorable="d"
-             d:DesignHeight="500" d:DesignWidth="300">
+             mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="350">
 
-    <Grid>
-        <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    MinWidth="220" Margin="10">
+    <Grid Background="Transparent">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20, 30, 20, 20" MinWidth="250">
 
-            <TextBlock Text="Логин:"
-                       Foreground="{DynamicResource BrushTextPrimary}"
-                       Margin="0,0,0,5"/>
+                <TextBlock Text="Регистрация" Foreground="{DynamicResource BrushTextPrimary}" 
+                           FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
-            <TextBox x:Name="LoginTextBox"
-                     MinWidth="200"
-                     Margin="0,0,0,15"/>
+                <TextBlock Text="Логин:" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,4"/>
+                <TextBox x:Name="LoginTextBox" Margin="0,0,0,12"/>
 
-            <TextBlock Text="Пароль:"
-                       Foreground="{DynamicResource BrushTextPrimary}"
-                       Margin="0,0,0,5"/>
+                <TextBlock Text="ФИО:" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,4"/>
+                <TextBox x:Name="FioTextBox" Margin="0,0,0,12"/>
 
-            <PasswordBox x:Name="PasswordBox"
-                         MinWidth="200"
-                         Margin="0,0,0,15"/>
+                <TextBlock Text="Email:" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,4"/>
+                <TextBox x:Name="EmailTextBox" Margin="0,0,0,12"/>
 
-            <Button Content="Зарегистрироваться"
-                    MinWidth="140"
-                    HorizontalAlignment="Stretch"
-                    Click="Button_Click"/>
-        </StackPanel>
+                <TextBlock Text="Пароль:" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,4"/>
+                <PasswordBox x:Name="PasswordBoxFirst" Margin="0,0,0,12"/>
+
+                <TextBlock Text="Повторите пароль:" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,4"/>
+                <PasswordBox x:Name="PasswordBoxSecond" Margin="0,0,0,20"/>
+
+                <Button Content="Зарегистрироваться" HorizontalAlignment="Stretch" Height="35" Click="RegisterButton_Click"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

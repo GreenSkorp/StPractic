@@ -5,102 +5,29 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:StPractic.Pages.LoginElements"
       mc:Ignorable="d"
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="LoginPage"
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="Авторизация"
       Background="{DynamicResource BrushBackground}">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <!-- Сегментированный переключатель темы -->
-        <Border Grid.Row="0"
-        HorizontalAlignment="Right"
-        VerticalAlignment="Center"
-        Margin="0,0,15,0"
-        CornerRadius="6"
-        BorderBrush="{DynamicResource BrushBorder}"
-        BorderThickness="1"
-        Background="{DynamicResource BrushSurface}">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0">
+            <TextBlock Text="Светлая" VerticalAlignment="Center" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,10,0"/>
+            <ToggleButton x:Name="ThemeSwitch" Width="50" Height="24" Checked="ThemeSwitch_Checked" Unchecked="ThemeSwitch_Unchecked"/>
+            <TextBlock Text="Тёмная" VerticalAlignment="Center" Foreground="{DynamicResource BrushTextPrimary}" Margin="10,0,0,0"/>
+        </StackPanel>
 
-            <Border.Resources>
-                <!-- Стиль сегмента (внутренней кнопки) -->
-                <Style x:Key="SegmentStyle" TargetType="RadioButton">
-                    <Setter Property="Padding" Value="16,6"/>
-                    <Setter Property="Foreground" Value="{DynamicResource BrushTextSecondary}"/>
-                    <Setter Property="Cursor" Value="Hand"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="RadioButton">
-                                <Border x:Name="Bg"
-                                Background="Transparent"
-                                CornerRadius="5"
-                                Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Bg"
-                                        Property="Background"
-                                        Value="{DynamicResource BrushSurfaceAlt}"/>
-                                    </Trigger>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter TargetName="Bg"
-                                        Property="Background"
-                                        Value="{DynamicResource BrushAccent}"/>
-                                        <Setter Property="Foreground"
-                                        Value="{DynamicResource BrushTextOnAccent}"/>
-                                        <Setter Property="FontWeight" Value="SemiBold"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Border.Resources>
-
-            <StackPanel Orientation="Horizontal">
-                <RadioButton x:Name="LightThemeRadio"
-                     Content="Светлая"
-                     Style="{StaticResource SegmentStyle}"
-                     GroupName="ThemeSelector"
-                     IsChecked="True"
-                     Checked="LightTheme_Checked"/>
-
-                <RadioButton x:Name="DarkThemeRadio"
-                     Content="Тёмная"
-                     Style="{StaticResource SegmentStyle}"
-                     GroupName="ThemeSelector"
-                     Checked="DarkTheme_Checked"/>
-            </StackPanel>
-        </Border>
-
-        <!-- Центральная панель с формой -->
-        <Border Grid.Row="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-
-            <TabControl 
-                        BorderThickness="1"
-                        Margin="20"
-                        Width="300">
-
-                <TabControl.Resources>
-                    <Style TargetType="TabPanel">
-                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                    </Style>
-                </TabControl.Resources>
-
+        <Border Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+            <TabControl Margin="20" MinWidth="340" MaxWidth="450" VerticalAlignment="Center">
                 <TabItem Header="Вход">
-                    <local:LoginPageControl Loaded="LoginPageControl_Loaded"/>
+                    <local:LoginPageControl />
                 </TabItem>
-
                 <TabItem Header="Регистрация">
-                    <local:RegistrationPageControl/>
+                    <local:RegistrationPageControl />
                 </TabItem>
             </TabControl>
         </Border>

@@ -1,0 +1,30 @@
+﻿<Page x:Class="StPractic.Pages.ChangePassPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Смена пароля"
+      Background="{DynamicResource BrushBackground}">
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="300" Margin="20">
+
+                <TextBlock Text="Смена пароля" FontSize="22" FontWeight="SemiBold" 
+                           Foreground="{DynamicResource BrushTextPrimary}" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Текущий пароль:" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,4"/>
+                <PasswordBox x:Name="CurrentPasswordBox" Margin="0,0,0,12"/>
+
+                <TextBlock Text="Новый пароль:" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,4"/>
+                <PasswordBox x:Name="NewPasswordBox" Margin="0,0,0,12"/>
+
+                <TextBlock Text="Подтвердите новый пароль:" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,4"/>
+                <PasswordBox x:Name="ConfirmPasswordBox" Margin="0,0,0,20"/>
+
+                <Button Content="Сохранить" HorizontalAlignment="Stretch" Height="35" Click="SaveButton_Click" Margin="0,0,0,10"/>
+                <Button Content="Назад" HorizontalAlignment="Stretch" Height="35" Background="Transparent" 
+                        BorderBrush="{DynamicResource BrushBorder}" Foreground="{DynamicResource BrushTextPrimary}" 
+                        Click="BackButton_Click"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
