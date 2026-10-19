@@ -15,11 +15,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0">
-            <TextBlock Text="Светлая" VerticalAlignment="Center" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,10,0"/>
-            <ToggleButton x:Name="ThemeSwitch" Width="50" Height="24" Checked="ThemeSwitch_Checked" Unchecked="ThemeSwitch_Unchecked"/>
-            <TextBlock Text="Тёмная" VerticalAlignment="Center" Foreground="{DynamicResource BrushTextPrimary}" Margin="10,0,0,0"/>
-        </StackPanel>
 
         <Border Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch">
             <TabControl Margin="20" MinWidth="340" MaxWidth="450" VerticalAlignment="Center">

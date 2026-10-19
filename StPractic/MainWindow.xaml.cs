@@ -1,5 +1,7 @@
-﻿using System.Windows;
-using StPractic.Pages;
+﻿using StPractic.Pages;
+using System;
+using System.Linq;
+using System.Windows;
 
 namespace StPractic
 {
@@ -41,10 +43,8 @@ namespace StPractic
 
         private void ProfileBtn_Click(object sender, RoutedEventArgs e)
         {
-            // ВРЕМЕННАЯ ЗАГЛУШКА (пока нет страниц профилей)
-            MessageBox.Show($"Вы вошли как: {CurrentUser.full_name}\nРоль: {CurrentUser.role}");
-            // В будущем: if (CurrentUser.role == "Admin") MainFrame.Navigate(new AdminPage()); ...
-        }
+            if (CurrentUser.role == "Admin") MainFrame.Navigate(new UserPage());
+                    }
 
         private void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -53,6 +53,34 @@ namespace StPractic
                 CurrentUser = null;
                 UpdateUI();
                 MainFrame.Navigate(new CourseCatalogPage());
+            }
+        }
+
+        private void ThemeSwitch_Checked(object sender, RoutedEventArgs e)
+        {
+            SwitchTheme("DarkTheme.xaml");
+        }
+
+        private void ThemeSwitch_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SwitchTheme("LightTheme.xaml");
+        }
+
+        private void SwitchTheme(string themeFileName)
+        {
+            if (Application.Current == null) return;
+            try
+            {
+                var uri = new Uri($"pack://application:,,,/res/{themeFileName}", UriKind.Absolute);
+                var dicts = Application.Current.Resources.MergedDictionaries;
+                var oldTheme = dicts.FirstOrDefault(d => d.Source != null && d.Source.OriginalString.Contains("Theme"));
+
+                if (oldTheme != null) dicts.Remove(oldTheme);
+                dicts.Add(new ResourceDictionary { Source = uri });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка загрузки темы: {ex.Message}");
             }
         }
     }

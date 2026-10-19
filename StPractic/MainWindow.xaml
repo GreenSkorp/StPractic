@@ -22,10 +22,18 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Логотип / Название (Кликабельный, ведет на главную) -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0">
+
+                    <!-- Логотип / Название (Кликабельный, ведет на главную) -->
                 <Button Grid.Column="0" Background="Transparent" BorderThickness="0" Click="Logo_Click" Cursor="Hand">
                     <TextBlock Text="KIPLang" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource BrushAccent}"/>
                 </Button>
+
+
+                    <TextBlock Text="Светлая" VerticalAlignment="Center" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,10,0"/>
+                    <ToggleButton x:Name="ThemeSwitch" Width="50" Height="24" Checked="ThemeSwitch_Checked" Unchecked="ThemeSwitch_Unchecked"/>
+                    <TextBlock Text="Тёмная" VerticalAlignment="Center" Foreground="{DynamicResource BrushTextPrimary}" Margin="10,0,0,0"/>
+                </StackPanel>
 
                 <!-- Кнопки справа -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,20,0">
@@ -42,6 +50,8 @@
             </Grid>
         </Border>
 
+        
+        
         <!-- Сюда загружаются страницы -->
         <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Source="Pages/CourseCatalogPage.xaml"/>
     </Grid>

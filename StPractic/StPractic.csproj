@@ -96,6 +96,9 @@
     <Compile Include="Pages\CourseCatalogPage.xaml.cs">
       <DependentUpon>CourseCatalogPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\CoursePage.xaml.cs">
+      <DependentUpon>CoursePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\LoginElements\CaptchaWindow.xaml.cs">
       <DependentUpon>CaptchaWindow.xaml</DependentUpon>
     </Compile>
@@ -104,6 +107,9 @@
     </Compile>
     <Compile Include="Pages\LoginElements\RegistrationPageControl.xaml.cs">
       <DependentUpon>RegistrationPageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserPage.xaml.cs">
+      <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="payments.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -155,6 +161,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\CoursePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\LoginElements\CaptchaWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -168,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
