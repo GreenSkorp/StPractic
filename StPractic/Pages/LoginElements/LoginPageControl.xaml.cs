@@ -33,7 +33,6 @@ namespace StPractic.Pages.LoginElements
                 return;
             }
 
-            // Если 3 и более ошибок — жестко требуем капчу
             if (_failedAttempts >= 3)
             {
                 var captchaWin = new CaptchaWindow();
@@ -66,10 +65,8 @@ namespace StPractic.Pages.LoginElements
                     // Успех
                     _failedAttempts = 0;
 
-                    // 1. Сохраняем пользователя в глобальную переменную MainWindow
                     MainWindow.CurrentUser = user;
 
-                    // 2. Обновляем шапку (прячем кнопку "Войти", показываем профиль)
                     if (Application.Current.MainWindow is MainWindow mainWin)
                     {
                         mainWin.UpdateUI();
@@ -77,19 +74,16 @@ namespace StPractic.Pages.LoginElements
 
                     MessageBox.Show($"Добро пожаловать, {user.full_name}!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    // 3. Перенаправляем в зависимости от роли
                     var navService = NavigationService.GetNavigationService(this);
                     if (navService != null)
                     {
                         if (user.role == "Admin" || user.role == "Teacher")
                         {
-                            // Пока страниц профиля нет, отправляем на каталог
                             MessageBox.Show($"Вы вошли как {user.role}. (Страница профиля в разработке)");
                             navService.Navigate(new CourseCatalogPage());
                         }
                         else
                         {
-                            // Обычный пользователь тоже пока идет в каталог
                             navService.Navigate(new CourseCatalogPage());
                         }
                     }

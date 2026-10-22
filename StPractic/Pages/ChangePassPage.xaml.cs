@@ -12,10 +12,10 @@ namespace StPractic.Pages
         // Сюда нужно будет передавать текущего пользователя, когда будете делать профиль
         private users _currentUser;
 
-        public ChangePassPage(users user)
+        public ChangePassPage()
         {
             InitializeComponent();
-            _currentUser = user;
+            _currentUser = MainWindow.CurrentUser;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

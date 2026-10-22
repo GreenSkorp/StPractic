@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="KIPLang - Изучение языков" Height="700" Width="1100"
         WindowStartupLocation="CenterScreen"
-        Background="{DynamicResource BrushBackground}">
+        Background="{DynamicResource BrushBackground}" Closing="ClosedProg" >
 
     <Grid>
         <Grid.RowDefinitions>

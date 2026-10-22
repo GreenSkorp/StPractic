@@ -43,8 +43,15 @@ namespace StPractic
 
         private void ProfileBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentUser.role == "Admin") MainFrame.Navigate(new UserPage());
-                    }
+            if (CurrentUser == null)
+            {
+                MessageBox.Show("Сначала войдите в систему.");
+                return;
+            }
+            MainFrame.Navigate(new Pages.UserPage());
+        }
+
+
 
         private void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -82,6 +89,24 @@ namespace StPractic
             {
                 MessageBox.Show($"Ошибка загрузки темы: {ex.Message}");
             }
+        }
+
+        private void ClosedProg(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены, что хотите закрыть программу?", "Выход", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
+            
+        }
+
+        private void ClosedProg(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (MessageBox.Show("Вы уверены, что хотите закрыть программу?", "Выход", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
+            else e.Cancel = true;
         }
     }
 }

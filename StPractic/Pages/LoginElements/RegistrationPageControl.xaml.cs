@@ -60,8 +60,8 @@ namespace StPractic.Pages.LoginElements
                         login = LoginTextBox.Text,
                         full_name = FioTextBox.Text,
                         email = EmailTextBox.Text,
-                        password_hash = LoginPageControl.GetHash(password), // Используем метод из соседнего класса
-                        role = "User", // По умолчанию
+                        password_hash = LoginPageControl.GetHash(password),
+                        role = "User",
                         registration_date = DateTime.Now
                     };
 
