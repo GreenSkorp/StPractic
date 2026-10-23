@@ -99,14 +99,23 @@
     <Compile Include="Pages\CoursePage.xaml.cs">
       <DependentUpon>CoursePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\LessonPage.xaml.cs">
+      <DependentUpon>LessonPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\LoginElements\CaptchaWindow.xaml.cs">
       <DependentUpon>CaptchaWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\CourseEditWindow.xaml.cs">
+      <DependentUpon>CourseEditWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\LoginElements\LoginPageControl.xaml.cs">
       <DependentUpon>LoginPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\LoginElements\RegistrationPageControl.xaml.cs">
       <DependentUpon>RegistrationPageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ManageLessonsWindow.xaml.cs">
+      <DependentUpon>ManageLessonsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PaymentWindow.xaml.cs">
       <DependentUpon>PaymentWindow.xaml</DependentUpon>
@@ -168,7 +177,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\LessonPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\LoginElements\CaptchaWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\CourseEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ManageLessonsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -252,6 +273,7 @@
     <Folder Include="res\Documents\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\logo.png" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>

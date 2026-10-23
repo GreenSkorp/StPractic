@@ -7,7 +7,6 @@ namespace StPractic
 {
     public partial class MainWindow : Window
     {
-        // Статическая переменная, чтобы любая страница знала, кто вошел
         public static users CurrentUser { get; set; } = null;
 
         public MainWindow()
@@ -16,7 +15,6 @@ namespace StPractic
             UpdateUI();
         }
 
-        // Обновление кнопок в шапке в зависимости от авторизации
         public void UpdateUI()
         {
             if (CurrentUser == null)
@@ -51,8 +49,6 @@ namespace StPractic
             MainFrame.Navigate(new Pages.UserPage());
         }
 
-
-
         private void LogoutBtn_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Вы уверены, что хотите выйти?", "Выход", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -78,35 +74,31 @@ namespace StPractic
             if (Application.Current == null) return;
             try
             {
-                var uri = new Uri($"pack://application:,,,/res/{themeFileName}", UriKind.Absolute);
+                var uri = new Uri("pack://application:,,,/res/" + themeFileName, UriKind.Absolute);
                 var dicts = Application.Current.Resources.MergedDictionaries;
-                var oldTheme = dicts.FirstOrDefault(d => d.Source != null && d.Source.OriginalString.Contains("Theme"));
+                var oldTheme = dicts.FirstOrDefault(d =>
+                    d.Source != null && d.Source.OriginalString.Contains("Theme"));
 
                 if (oldTheme != null) dicts.Remove(oldTheme);
                 dicts.Add(new ResourceDictionary { Source = uri });
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки темы: {ex.Message}");
+                MessageBox.Show("Ошибка загрузки темы: " + ex.Message);
             }
-        }
-
-        private void ClosedProg(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Вы уверены, что хотите закрыть программу?", "Выход", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                Application.Current.Shutdown();
-            }
-            
         }
 
         private void ClosedProg(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (MessageBox.Show("Вы уверены, что хотите закрыть программу?", "Выход", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Вы уверены, что хотите закрыть программу?", "Выход",
+                    MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 Application.Current.Shutdown();
             }
-            else e.Cancel = true;
+            else
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

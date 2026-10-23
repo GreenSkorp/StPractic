@@ -62,11 +62,11 @@ namespace StPractic.Pages
                     CourseTitleText.Text = _course.title;
                     DescriptionText.Text = string.IsNullOrWhiteSpace(_course.description)
                         ? "Описание отсутствует."
-                        : _course.description;
+                        : (_course.description ?? "").Replace("<!--FROZEN-->", "").Trim();
                     LanguageText.Text = _course.languages?.name ?? "—";
                     LevelText.Text = _course.level ?? "—";
                     TeacherText.Text = _course.users?.full_name ?? "—";
-                    PriceText.Text = $"{_course.price:N0} ₽";
+                    PriceText.Text = "$" + _course.price.ToString("N0");
                     CreatedAtText.Text = $"Создан: {_course.created_at:dd.MM.yyyy}";
 
                     // Общая длительность
@@ -154,6 +154,8 @@ namespace StPractic.Pages
                 EnrollBtn.Visibility = Visibility.Collapsed;
                 EnrolledBadge.Visibility = Visibility.Collapsed;
                 LoginHintText.Visibility = Visibility.Visible;
+                ReviewFormPanel.Visibility = Visibility.Collapsed;
+                AlreadyReviewedText.Visibility = Visibility.Collapsed;
                 return;
             }
 
@@ -185,6 +187,9 @@ namespace StPractic.Pages
                 }
                 EnrolledBadge.Visibility = Visibility.Collapsed;
             }
+
+            // Форма отзыва — только для записанных
+            UpdateReviewForm(db);
         }
 
         private void EnrollBtn_Click(object sender, RoutedEventArgs e)
@@ -232,17 +237,111 @@ namespace StPractic.Pages
         {
             if (sender is Border border && border.DataContext is LessonItem lesson)
             {
-                // Пока просто сообщение — страницу урока сделаем следующим шагом
-                MessageBox.Show(
-                    $"Открытие урока:\n«{lesson.Title}»\n\n(Страница урока будет добавлена следующим шагом)",
-                    "Урок",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                var user = MainWindow.CurrentUser;
+                if (user == null)
+                {
+                    MessageBox.Show("Сначала войдите в систему.");
+                    return;
+                }
 
-                // В будущем:
-                // NavigationService?.Navigate(new LessonPage(lesson.Id));
+                string role = (user.role ?? "").ToLower();
+                bool isStaff = role == "teacher" || role == "преподаватель" ||
+                               role == "admin" || role == "администратор";
+
+                if (!_isEnrolled && !isStaff)
+                {
+                    MessageBox.Show("Сначала запишитесь на курс, чтобы открывать уроки.",
+                        "Нужна запись", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                NavigationService?.Navigate(new LessonPage(lesson.Id));
             }
         }
+
+
+        private void UpdateReviewForm(KIPLangEntities db)
+        {
+            ReviewFormPanel.Visibility = Visibility.Collapsed;
+            AlreadyReviewedText.Visibility = Visibility.Collapsed;
+
+            var user = MainWindow.CurrentUser;
+            if (user == null || !_isEnrolled) return;
+
+            bool already = db.reviews.Any(r => r.user_id == user.id && r.course_id == _courseId);
+            if (already)
+            {
+                AlreadyReviewedText.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ReviewFormPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SubmitReview_Click(object sender, RoutedEventArgs e)
+        {
+            var user = MainWindow.CurrentUser;
+            if (user == null)
+            {
+                MessageBox.Show("Сначала войдите в систему.");
+                return;
+            }
+
+            if (!_isEnrolled)
+            {
+                MessageBox.Show("Оставлять отзыв могут только записанные на курс студенты.");
+                return;
+            }
+
+            int rating = 5;
+            if (RatingCombo.SelectedItem is System.Windows.Controls.ComboBoxItem item &&
+                int.TryParse(item.Content as string, out int r))
+                rating = r;
+
+            string comment = (ReviewCommentBox.Text ?? "").Trim();
+            if (string.IsNullOrWhiteSpace(comment))
+            {
+                MessageBox.Show("Напишите текст отзыва.", "Внимание");
+                return;
+            }
+
+            if (comment.Length < 5)
+            {
+                MessageBox.Show("Отзыв слишком короткий (минимум 5 символов).", "Внимание");
+                return;
+            }
+
+            try
+            {
+                using (var db = new KIPLangEntities())
+                {
+                    if (db.reviews.Any(x => x.user_id == user.id && x.course_id == _courseId))
+                    {
+                        MessageBox.Show("Вы уже оставляли отзыв на этот курс.");
+                        LoadCourse();
+                        return;
+                    }
+
+                    // INSERT без id — IDENTITY
+                    db.Database.ExecuteSqlCommand(
+                        "INSERT INTO reviews (user_id, course_id, rating, comment, review_date) VALUES (@p0, @p1, @p2, @p3, @p4)",
+                        user.id, _courseId, rating, comment, DateTime.Today);
+                }
+
+                MessageBox.Show("Спасибо! Ваш отзыв опубликован.", "Успех");
+                ReviewCommentBox.Clear();
+                LoadCourse();
+            }
+            catch (Exception ex)
+            {
+                string d = ex.Message;
+                if (ex.InnerException != null) d += "\n" + ex.InnerException.Message;
+                if (ex.InnerException?.InnerException != null) d += "\n" + ex.InnerException.InnerException.Message;
+                MessageBox.Show("Ошибка сохранения отзыва:\n" + d);
+            }
+        }
+
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {

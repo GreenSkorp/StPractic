@@ -20,9 +20,6 @@ namespace StPractic.Pages
         private readonly decimal _amount;
         private readonly string _courseTitle;
 
-        /// <summary>
-        /// true — оплата прошла и запись на курс создана
-        /// </summary>
         public bool PaymentSuccess { get; private set; }
 
         public PaymentWindow(int courseId, int userId, string courseTitle, decimal amount)
@@ -47,20 +44,55 @@ namespace StPractic.Pages
 
         private void Pay_Click(object sender, RoutedEventArgs e)
         {
-            // Простая проверка заполнения (имитация)
-            if (string.IsNullOrWhiteSpace(CardNumberBox.Text) ||
-                string.IsNullOrWhiteSpace(ExpiryBox.Text) ||
-                string.IsNullOrWhiteSpace(CvcBox.Text))
+            var errors = new System.Collections.Generic.List<string>();
+
+            string cardRaw = (CardNumberBox.Text ?? "").Replace(" ", "").Replace("-", "");
+            string expiry = (ExpiryBox.Text ?? "").Trim();
+            string cvc = (CvcBox.Text ?? "").Trim();
+
+            if (string.IsNullOrWhiteSpace(cardRaw))
+                errors.Add("• Номер карты не заполнен");
+            else if (!cardRaw.All(char.IsDigit))
+                errors.Add("• Номер карты должен содержать только цифры");
+            else if (cardRaw.Length < 13 || cardRaw.Length > 19)
+                errors.Add("• Номер карты: нужно от 13 до 19 цифр (сейчас " + cardRaw.Length + ")");
+
+            if (string.IsNullOrWhiteSpace(expiry))
+                errors.Add("• Срок действия карты не заполнен");
+            else if (expiry.Length != 5 || expiry[2] != '/')
+                errors.Add("• Срок действия: формат ММ/ГГ (например 12/28)");
+            else
             {
-                MessageBox.Show("Заполните данные карты.", "Внимание",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                string mm = expiry.Substring(0, 2);
+                string yy = expiry.Substring(3, 2);
+                if (!int.TryParse(mm, out int month) || month < 1 || month > 12)
+                    errors.Add("• Месяц срока действия должен быть от 01 до 12");
+                if (!int.TryParse(yy, out int year))
+                    errors.Add("• Год срока действия указан неверно");
+                else
+                {
+                    // 20YY
+                    int fullYear = 2000 + year;
+                    var expDate = new DateTime(fullYear, month, DateTime.DaysInMonth(fullYear, month));
+                    if (expDate < DateTime.Today)
+                        errors.Add("• Срок действия карты истёк");
+                }
             }
 
-            if (CardNumberBox.Text.Replace(" ", "").Length < 12)
+            if (string.IsNullOrWhiteSpace(cvc))
+                errors.Add("• CVC-код не заполнен");
+            else if (!cvc.All(char.IsDigit))
+                errors.Add("• CVC должен содержать только цифры");
+            else if (cvc.Length < 3 || cvc.Length > 4)
+                errors.Add("• CVC: нужно 3 или 4 цифры (сейчас " + cvc.Length + ")");
+
+            if (errors.Count > 0)
             {
-                MessageBox.Show("Некорректный номер карты.", "Внимание",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(
+                    "Проверьте данные карты:\n\n" + string.Join("\n", errors),
+                    "Неверный ввод",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
                 return;
             }
 
@@ -68,7 +100,6 @@ namespace StPractic.Pages
             {
                 using (var db = new KIPLangEntities())
                 {
-                    // Уже записан?
                     if (db.enrollments.Any(en => en.user_id == _userId && en.course_id == _courseId))
                     {
                         MessageBox.Show("Вы уже записаны на этот курс.", "Информация");
@@ -78,28 +109,14 @@ namespace StPractic.Pages
                         return;
                     }
 
-                    // 1. Платёж (id не указываем — IDENTITY)
-                    var payment = new payments
-                    {
-                        user_id = _userId,
-                        course_id = _courseId,
-                        amount = _amount,
-                        payment_date = DateTime.Today,
-                        status = "paid"
-                    };
-                    db.payments.Add(payment);
+                    // INSERT без id — корректно с IDENTITY
+                    db.Database.ExecuteSqlCommand(
+                        "INSERT INTO payments (user_id, course_id, amount, payment_date, status) VALUES (@p0, @p1, @p2, @p3, @p4)",
+                        _userId, _courseId, _amount, DateTime.Today, "paid");
 
-                    // 2. Запись на курс (id не указываем — IDENTITY)
-                    var enrollment = new enrollments
-                    {
-                        user_id = _userId,
-                        course_id = _courseId,
-                        enrollment_date = DateTime.Today,
-                        status = "active"
-                    };
-                    db.enrollments.Add(enrollment);
-
-                    db.SaveChanges();
+                    db.Database.ExecuteSqlCommand(
+                        "INSERT INTO enrollments (user_id, course_id, enrollment_date, status) VALUES (@p0, @p1, @p2, @p3)",
+                        _userId, _courseId, DateTime.Today, "active");
                 }
 
                 PaymentSuccess = true;

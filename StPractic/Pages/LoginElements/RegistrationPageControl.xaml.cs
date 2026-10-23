@@ -36,7 +36,7 @@ namespace StPractic.Pages.LoginElements
                 return;
             }
 
-            // 3. Капча перед сохранением!
+            // 3. Капча
             var captchaWin = new CaptchaWindow();
             if (captchaWin.ShowDialog() != true)
             {
@@ -49,35 +49,46 @@ namespace StPractic.Pages.LoginElements
             {
                 using (var db = new KIPLangEntities())
                 {
-                    if (db.users.Any(u => u.login == LoginTextBox.Text))
+                    string login = LoginTextBox.Text.Trim();
+
+                    if (db.users.Any(u => u.login == login))
                     {
                         MessageBox.Show("Логин уже занят!", "Ошибка");
                         return;
                     }
 
-                    var newUser = new users
-                    {
-                        login = LoginTextBox.Text,
-                        full_name = FioTextBox.Text,
-                        email = EmailTextBox.Text,
-                        password_hash = LoginPageControl.GetHash(password),
-                        role = "User",
-                        registration_date = DateTime.Now
-                    };
+                    string hash = LoginPageControl.GetHash(password);
 
-                    db.users.Add(newUser);
-                    db.SaveChanges();
+                    // INSERT без id — корректно работает с IDENTITY
+                    // (EDMX часто не знает, что id автоинкрементный)
+                    db.Database.ExecuteSqlCommand(
+                        "INSERT INTO users (login, password_hash, full_name, email, role, registration_date) " +
+                        "VALUES (@p0, @p1, @p2, @p3, @p4, @p5)",
+                        login,
+                        hash,
+                        FioTextBox.Text.Trim(),
+                        EmailTextBox.Text.Trim(),
+                        "User",
+                        DateTime.Today);
                 }
 
                 MessageBox.Show("Успешная регистрация! Теперь можете войти.", "Успех");
 
-                // Очищаем поля
-                LoginTextBox.Clear(); FioTextBox.Clear(); EmailTextBox.Clear();
-                PasswordBoxFirst.Clear(); PasswordBoxSecond.Clear();
+                LoginTextBox.Clear();
+                FioTextBox.Clear();
+                EmailTextBox.Clear();
+                PasswordBoxFirst.Clear();
+                PasswordBoxSecond.Clear();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка сохранения: {ex.Message}", "Ошибка");
+                string details = ex.Message;
+                if (ex.InnerException != null)
+                    details += "\n\n" + ex.InnerException.Message;
+                if (ex.InnerException?.InnerException != null)
+                    details += "\n\n" + ex.InnerException.InnerException.Message;
+
+                MessageBox.Show("Ошибка сохранения:\n" + details, "Ошибка");
             }
         }
     }

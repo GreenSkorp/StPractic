@@ -1,0 +1,176 @@
+﻿<Page x:Class="StPractic.Pages.LessonPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      Title="Урок"
+      Background="{DynamicResource BrushBackground}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Назад + заголовок -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                <Button Content="← Назад" Padding="12,6" Click="Back_Click"
+                        Background="Transparent"
+                        BorderBrush="{DynamicResource BrushBorder}"
+                        Foreground="{DynamicResource BrushTextPrimary}"
+                        Cursor="Hand" Margin="0,0,15,0"/>
+                <TextBlock x:Name="CourseNameText" VerticalAlignment="Center"
+                           FontSize="13" Foreground="{DynamicResource BrushTextSecondary}"/>
+            </StackPanel>
+
+            <!-- Заголовок урока -->
+            <Border Grid.Row="1" Background="{DynamicResource BrushSurface}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                    CornerRadius="12" Padding="25" Margin="0,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock x:Name="LessonTitleText" Text="Урок"
+                                   FontSize="24" FontWeight="Bold"
+                                   Foreground="{DynamicResource BrushTextPrimary}"
+                                   TextWrapping="Wrap"/>
+                        <TextBlock x:Name="LessonMetaText" Margin="0,8,0,0"
+                                   FontSize="13" Foreground="{DynamicResource BrushTextSecondary}"/>
+                    </StackPanel>
+                    <Border x:Name="StatusBadge" Grid.Column="1" VerticalAlignment="Top"
+                            CornerRadius="6" Padding="12,5" Visibility="Collapsed">
+                        <TextBlock x:Name="StatusBadgeText" FontWeight="SemiBold" FontSize="13"/>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Материал урока -->
+            <Border Grid.Row="2" Background="{DynamicResource BrushSurface}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                    CornerRadius="12" Padding="25" Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Материал" FontSize="18" FontWeight="Bold"
+                               Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,12"/>
+                    <TextBlock x:Name="ContentText" TextWrapping="Wrap"
+                               FontSize="15" LineHeight="24"
+                               Foreground="{DynamicResource BrushTextPrimary}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Упражнения -->
+            <Border Grid.Row="3" Background="{DynamicResource BrushSurface}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                    CornerRadius="12" Padding="25" Margin="0,0,0,20"
+                    x:Name="ExercisesPanel">
+                <StackPanel>
+                    <TextBlock Text="Упражнения" FontSize="18" FontWeight="Bold"
+                               Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,12"/>
+                    <ItemsControl x:Name="ExercisesList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{DynamicResource BrushSurfaceAlt}"
+                                        BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                                        CornerRadius="8" Padding="15" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding TypeLabel}" FontSize="12"
+                                                   Foreground="{DynamicResource BrushAccent}"
+                                                   FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding Question}" TextWrapping="Wrap"
+                                                   FontSize="14" Margin="0,6,0,10"
+                                                   Foreground="{DynamicResource BrushTextPrimary}"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Text="{Binding UserAnswer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     Height="32" VerticalContentAlignment="Center"
+                                                     Margin="0,0,10,0"/>
+                                            <Button Grid.Column="1" Content="Проверить"
+                                                    Padding="12,6" Cursor="Hand"
+                                                    Tag="{Binding}" Click="CheckExercise_Click"/>
+                                        </Grid>
+                                        <TextBlock Text="{Binding ResultText}" FontSize="13"
+                                                   Margin="0,8,0,0" FontWeight="SemiBold"
+                                                   Foreground="{Binding ResultBrush}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock x:Name="NoExercisesText" Text="Упражнений нет"
+                               FontSize="13" Foreground="{DynamicResource BrushTextSecondary}"
+                               Visibility="Collapsed"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Тесты -->
+            <Border Grid.Row="4" Background="{DynamicResource BrushSurface}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                    CornerRadius="12" Padding="25" Margin="0,0,0,20"
+                    x:Name="TestsPanel">
+                <StackPanel>
+                    <TextBlock Text="Тест" FontSize="18" FontWeight="Bold"
+                               Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,12"/>
+                    <ItemsControl x:Name="QuestionsList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{DynamicResource BrushSurfaceAlt}"
+                                        BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                                        CornerRadius="8" Padding="15" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding QuestionText}" TextWrapping="Wrap"
+                                                   FontSize="14" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource BrushTextPrimary}"
+                                                   Margin="0,0,0,10"/>
+                                        <ItemsControl ItemsSource="{Binding Answers}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <RadioButton Content="{Binding AnswerText}"
+                                                                 GroupName="{Binding GroupName}"
+                                                                 IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                                                 Margin="0,0,0,6"
+                                                                 Foreground="{DynamicResource BrushTextPrimary}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button x:Name="SubmitTestBtn" Content="Сдать тест" Padding="16,8"
+                            HorizontalAlignment="Left" Cursor="Hand"
+                            Click="SubmitTest_Click" Margin="0,8,0,0"/>
+                    <TextBlock x:Name="TestResultText" FontSize="14" FontWeight="SemiBold"
+                               Margin="0,12,0,0" Visibility="Collapsed"/>
+                    <TextBlock x:Name="NoTestsText" Text="Теста для этого урока нет"
+                               FontSize="13" Foreground="{DynamicResource BrushTextSecondary}"
+                               Visibility="Collapsed"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Завершить урок -->
+            <Border Grid.Row="5" Background="{DynamicResource BrushSurface}"
+                    BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                    CornerRadius="12" Padding="20">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="CompleteBtn" Content="Отметить урок как пройденный"
+                            Padding="18,10" Cursor="Hand" Click="CompleteLesson_Click"/>
+                    <TextBlock x:Name="CompleteHintText" VerticalAlignment="Center"
+                               Margin="15,0,0,0" FontSize="13"
+                               Foreground="{DynamicResource BrushTextSecondary}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</Page>

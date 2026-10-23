@@ -86,6 +86,16 @@ namespace StPractic.Pages
             public string DateText { get; set; }
         }
 
+        public class CourseStatItem
+        {
+            public string Title { get; set; }
+            public int Students { get; set; }
+            public string StudentsText { get; set; }
+            public double BarWidth { get; set; }
+            public double Progress { get; set; }
+            public string ProgressText { get; set; }
+        }
+
         public UserPage()
         {
             InitializeComponent();
@@ -191,6 +201,7 @@ namespace StPractic.Pages
                 else if (tab == TabMyReviews) LoadMyReviews();
                 else if (tab == TabTeacherCourses) LoadTeacherCourses();
                 else if (tab == TabStudents) LoadStudents();
+                else if (tab == TabTeacherStats) LoadTeacherStats();
                 else if (tab == TabUsers) LoadUsers();
                 else if (tab == TabAllCourses) LoadAllCourses();
                 else if (tab == TabModeration) LoadModeration();
@@ -376,7 +387,7 @@ namespace StPractic.Pages
                             CourseId = c.id,
                             Title = c.title,
                             StudentsText = db.enrollments.Count(e => e.course_id == c.id) + " студентов",
-                            StatusText = "● Активен"
+                            StatusText = (c.description ?? "").Contains("<!--FROZEN-->") ? "● Заморожен" : "● Активен"
                         }).ToList();
 
                     TeacherCoursesList.ItemsSource = list;
@@ -424,6 +435,99 @@ namespace StPractic.Pages
             catch (Exception ex)
             {
                 MessageBox.Show("Ошибка загрузки студентов: " + ex.Message);
+            }
+        }
+
+        private void LoadTeacherStats()
+        {
+            try
+            {
+                using (var db = new KIPLangEntities())
+                {
+                    int teacherId = MainWindow.CurrentUser.id;
+
+                    var myCourses = db.courses.Where(c => c.teacher_id == teacherId).ToList();
+                    int coursesCount = myCourses.Count;
+
+                    var courseIds = myCourses.Select(c => c.id).ToList();
+
+                    var enrollments = db.enrollments
+                        .Where(e => courseIds.Contains(e.course_id))
+                        .ToList();
+
+                    int enrollCount = enrollments.Count;
+                    int uniqueStudents = enrollments.Select(e => e.user_id).Distinct().Count();
+
+                    // Макс. студентов на одном курсе — для масштаба полос
+                    int maxStudents = 1;
+                    var chartItems = new List<CourseStatItem>();
+                    var progressItems = new List<CourseStatItem>();
+                    double progressSum = 0;
+                    int progressCourses = 0;
+
+                    const double maxBarPx = 320;
+
+                    foreach (var c in myCourses)
+                    {
+                        int stCount = enrollments.Count(e => e.course_id == c.id);
+                        if (stCount > maxStudents) maxStudents = stCount;
+
+                        // Средний прогресс по урокам курса
+                        var lessonIds = db.lessons.Where(l => l.course_id == c.id).Select(l => l.id).ToList();
+                        double avgProg = 0;
+                        if (lessonIds.Any() && stCount > 0)
+                        {
+                            var userIds = enrollments.Where(e => e.course_id == c.id).Select(e => e.user_id).Distinct().ToList();
+                            double sum = 0;
+                            foreach (int uid in userIds)
+                            {
+                                int done = db.user_progress.Count(p =>
+                                    p.user_id == uid && p.status == "completed" && lessonIds.Contains(p.lesson_id));
+                                sum += 100.0 * done / lessonIds.Count;
+                            }
+                            avgProg = Math.Round(sum / userIds.Count);
+                            progressSum += avgProg;
+                            progressCourses++;
+                        }
+
+                        chartItems.Add(new CourseStatItem
+                        {
+                            Title = c.title,
+                            Students = stCount,
+                            StudentsText = stCount + " чел."
+                        });
+
+                        progressItems.Add(new CourseStatItem
+                        {
+                            Title = c.title,
+                            Progress = avgProg,
+                            ProgressText = avgProg + "%"
+                        });
+                    }
+
+                    // Ширина полос относительно максимума
+                    foreach (var item in chartItems)
+                    {
+                        item.BarWidth = maxStudents > 0
+                            ? Math.Max(4, maxBarPx * item.Students / maxStudents)
+                            : 4;
+                    }
+
+                    StatCoursesCount.Text = coursesCount.ToString();
+                    StatStudentsCount.Text = uniqueStudents.ToString();
+                    StatEnrollCount.Text = enrollCount.ToString();
+                    StatAvgProgress.Text = progressCourses > 0
+                        ? Math.Round(progressSum / progressCourses) + "%"
+                        : "0%";
+
+                    CourseStatsChart.ItemsSource = chartItems;
+                    ProgressStatsChart.ItemsSource = progressItems;
+                    NoTeacherStatsText.Visibility = chartItems.Any() ? Visibility.Collapsed : Visibility.Visible;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка загрузки статистики: " + ex.Message);
             }
         }
 
@@ -484,7 +588,7 @@ namespace StPractic.Pages
                         Title = x.title,
                         Teacher = x.Teacher,
                         Level = x.level,
-                        PriceText = x.price.ToString("N0") + " ₽"
+                        PriceText = "$" + x.price.ToString("N0")
                     }).ToList();
 
                     AllCoursesGrid.ItemsSource = list;
@@ -568,25 +672,79 @@ namespace StPractic.Pages
 
         private void CreateCourse_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Создание курса будет добавлено позже.", "В разработке");
+            var win = new CourseEditWindow(null);
+            win.Owner = Window.GetWindow(this);
+            if (win.ShowDialog() == true && win.Saved)
+                LoadTeacherCourses();
         }
 
         private void EditCourse_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is int id)
-                MessageBox.Show("Редактирование курса ID=" + id + " (в разработке)");
+            if (!(sender is Button btn) || !(btn.Tag is int id)) return;
+            var win = new CourseEditWindow(id);
+            win.Owner = Window.GetWindow(this);
+            if (win.ShowDialog() == true && win.Saved)
+                LoadTeacherCourses();
         }
 
         private void FreezeCourse_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is int id)
-                MessageBox.Show("Заморозка курса ID=" + id + " (в разработке)");
+            if (!(sender is Button btn) || !(btn.Tag is int id)) return;
+
+            try
+            {
+                using (var db = new KIPLangEntities())
+                {
+                    var course = db.courses.FirstOrDefault(c => c.id == id);
+                    if (course == null) return;
+
+                    string desc = course.description ?? "";
+                    bool frozen = desc.Contains("<!--FROZEN-->");
+
+                    if (frozen)
+                    {
+                        course.description = desc.Replace("<!--FROZEN-->", "").Trim();
+                        MessageBox.Show("Курс разморожен. Запись снова доступна.");
+                    }
+                    else
+                    {
+                        if (MessageBox.Show(
+                                "Заморозить курс «" + course.title + "»?\nНовые записи будут недоступны.",
+                                "Заморозка",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Question) != MessageBoxResult.Yes)
+                            return;
+
+                        course.description = desc.TrimEnd() + "\n<!--FROZEN-->";
+                        MessageBox.Show("Курс заморожен.");
+                    }
+                    db.SaveChanges();
+                    LoadTeacherCourses();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка: " + ex.Message);
+            }
         }
 
         private void ManageLessons_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is int id)
-                MessageBox.Show("Управление уроками курса ID=" + id + " (в разработке)");
+            if (!(sender is Button btn) || !(btn.Tag is int id)) return;
+            string title = null;
+            try
+            {
+                using (var db = new KIPLangEntities())
+                {
+                    var c = db.courses.FirstOrDefault(x => x.id == id);
+                    title = c?.title;
+                }
+            }
+            catch { }
+
+            var win = new ManageLessonsWindow(id, title);
+            win.Owner = Window.GetWindow(this);
+            win.ShowDialog();
         }
 
         private void UserSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -596,10 +754,39 @@ namespace StPractic.Pages
 
         private void UsersGrid_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (UsersGrid.SelectedItem is UserItem user)
+            if (!(UsersGrid.SelectedItem is UserItem user)) return;
+
+            var choice = MessageBox.Show(
+                "Пользователь: " + user.FullName + "\nТекущая роль: " + user.Role +
+                "\n\nДа — сделать Преподавателем\nНет — сделать Студентом\nОтмена — ничего не менять",
+                "Смена роли",
+                MessageBoxButton.YesNoCancel,
+                MessageBoxImage.Question);
+
+            if (choice == MessageBoxResult.Cancel) return;
+
+            string newRole = choice == MessageBoxResult.Yes ? "Teacher" : "User";
+
+            try
             {
-                MessageBox.Show("Пользователь: " + user.FullName + "\nРоль: " + user.Role +
-                                "\n\nСмена роли / удаление — в разработке.");
+                using (var db = new KIPLangEntities())
+                {
+                    var u = db.users.FirstOrDefault(x => x.id == user.Id);
+                    if (u == null) return;
+                    if (u.role == "Admin" || u.role == "Администратор")
+                    {
+                        MessageBox.Show("Нельзя менять роль администратора.");
+                        return;
+                    }
+                    u.role = newRole;
+                    db.SaveChanges();
+                }
+                LoadUsers(UserSearchBox.Text.Trim());
+                MessageBox.Show("Роль изменена на: " + newRole);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка: " + ex.Message);
             }
         }
 

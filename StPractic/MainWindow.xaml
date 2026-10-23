@@ -1,58 +1,85 @@
 ﻿<Window x:Class="StPractic.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="KIPLang - Изучение языков" Height="700" Width="1100"
+        Title="KIPLang - Изучение языков"
+        Height="700" Width="1100"
         WindowStartupLocation="CenterScreen"
-        Background="{DynamicResource BrushBackground}" Closing="ClosedProg" >
+        Background="{DynamicResource BrushBackground}"
+        Icon="Images/logo.png"
+        Closing="ClosedProg">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
-            <!-- Шапка -->
             <RowDefinition Height="*"/>
-            <!-- Контент (Страницы) -->
         </Grid.RowDefinitions>
 
-        <!-- Шапка сайта -->
-        <Border Grid.Row="0" Background="{DynamicResource BrushSurface}" BorderBrush="{DynamicResource BrushBorder}" BorderThickness="0,0,0,1">
-            <Grid>
+        <!-- Шапка -->
+        <Border Grid.Row="0"
+                Background="{DynamicResource BrushSurface}"
+                BorderBrush="{DynamicResource BrushBorder}"
+                BorderThickness="0,0,0,1">
+            <Grid Margin="16,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0">
-
-                    <!-- Логотип / Название (Кликабельный, ведет на главную) -->
-                <Button Grid.Column="0" Background="Transparent" BorderThickness="0" Click="Logo_Click" Cursor="Hand">
-                    <TextBlock Text="KIPLang" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource BrushAccent}"/>
+                <!-- Логотип + название -->
+                <Button Grid.Column="0"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="Logo_Click"
+                        Cursor="Hand"
+                        Padding="0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Source="Images/logo.png" Width="36" Height="36"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               Margin="0,0,10,0"/>
+                        <TextBlock Text="KIPLang" FontSize="22" FontWeight="Bold"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource BrushAccent}"/>
+                    </StackPanel>
                 </Button>
 
-
-                    <TextBlock Text="Светлая" VerticalAlignment="Center" Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,10,0"/>
-                    <ToggleButton x:Name="ThemeSwitch" Width="50" Height="24" Checked="ThemeSwitch_Checked" Unchecked="ThemeSwitch_Unchecked"/>
-                    <TextBlock Text="Тёмная" VerticalAlignment="Center" Foreground="{DynamicResource BrushTextPrimary}" Margin="10,0,0,0"/>
+                <!-- Тумблер темы по центру-справа от лого -->
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Margin="24,0,0,0">
+                    <TextBlock Text="☀" FontSize="14" VerticalAlignment="Center"
+                               Foreground="{DynamicResource BrushTextSecondary}"
+                               Margin="0,0,8,0"/>
+                    <ToggleButton x:Name="ThemeSwitch"
+                                  Style="{DynamicResource ThemeToggleStyle}"
+                                  Checked="ThemeSwitch_Checked"
+                                  Unchecked="ThemeSwitch_Unchecked"
+                                  ToolTip="Смена темы"/>
+                    <TextBlock Text="🌙" FontSize="14" VerticalAlignment="Center"
+                               Foreground="{DynamicResource BrushTextSecondary}"
+                               Margin="8,0,0,0"/>
                 </StackPanel>
 
                 <!-- Кнопки справа -->
-                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,20,0">
-                    <!-- Эта кнопка видна, если пользователь НЕ авторизован -->
-                    <Button x:Name="LoginBtn" Content="Войти / Регистрация" Padding="15,5" Click="LoginBtn_Click"/>
-
-                    <!-- Эти кнопки видны, если пользователь АВТОРИЗОВАН -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="LoginBtn" Content="Войти / Регистрация"
+                            Padding="15,5" Click="LoginBtn_Click"/>
                     <StackPanel x:Name="AuthPanel" Orientation="Horizontal" Visibility="Collapsed">
-                        <Button x:Name="ProfileBtn" Content="Мой профиль" Padding="15,5" Margin="0,0,10,0" Click="ProfileBtn_Click"/>
-                        <Button Content="Выйти" Padding="15,5" Background="Transparent" BorderBrush="{DynamicResource BrushBorder}" 
-                                Foreground="{DynamicResource BrushTextPrimary}" Click="LogoutBtn_Click"/>
+                        <Button x:Name="ProfileBtn" Content="Мой профиль"
+                                Padding="15,5" Margin="0,0,10,0" Click="ProfileBtn_Click"/>
+                        <Button Content="Выйти" Padding="15,5"
+                                Background="Transparent"
+                                BorderBrush="{DynamicResource BrushBorder}"
+                                Foreground="{DynamicResource BrushTextPrimary}"
+                                Click="LogoutBtn_Click"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
         </Border>
 
-        
-        
-        <!-- Сюда загружаются страницы -->
-        <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Source="Pages/CourseCatalogPage.xaml"/>
+        <Frame x:Name="MainFrame" Grid.Row="1"
+               NavigationUIVisibility="Hidden"
+               Source="Pages/CourseCatalogPage.xaml"/>
     </Grid>
 </Window>

@@ -175,6 +175,37 @@
                                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     </Grid>
 
+                    <!-- Форма отзыва (только для записанных) -->
+                    <Border x:Name="ReviewFormPanel" Visibility="Collapsed"
+                            Background="{DynamicResource BrushSurfaceAlt}"
+                            BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1"
+                            CornerRadius="8" Padding="15" Margin="0,0,0,15">
+                        <StackPanel>
+                            <TextBlock Text="Оставить отзыв" FontWeight="SemiBold" FontSize="14"
+                                       Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,10"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="Оценка:" VerticalAlignment="Center" Margin="0,0,10,0"
+                                           Foreground="{DynamicResource BrushTextSecondary}"/>
+                                <ComboBox x:Name="RatingCombo" Width="80" Height="30" SelectedIndex="4">
+                                    <ComboBoxItem Content="5"/>
+                                    <ComboBoxItem Content="4"/>
+                                    <ComboBoxItem Content="3"/>
+                                    <ComboBoxItem Content="2"/>
+                                    <ComboBoxItem Content="1"/>
+                                </ComboBox>
+                            </StackPanel>
+                            <TextBox x:Name="ReviewCommentBox" Height="70" TextWrapping="Wrap"
+                                     AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+                                     Margin="0,0,0,10"/>
+                            <Button Content="Отправить отзыв" Padding="14,8" HorizontalAlignment="Left"
+                                    Cursor="Hand" Click="SubmitReview_Click"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock x:Name="AlreadyReviewedText" Text="Вы уже оставили отзыв на этот курс."
+                               FontSize="13" Foreground="{DynamicResource BrushTextSecondary}"
+                               Margin="0,0,0,12" Visibility="Collapsed"/>
+
                     <ItemsControl x:Name="ReviewsList">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
