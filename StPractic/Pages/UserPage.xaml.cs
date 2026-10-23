@@ -251,25 +251,34 @@ namespace StPractic.Pages
                 {
                     int userId = MainWindow.CurrentUser.id;
 
-                    var list = (from p in db.user_progress
-                                join l in db.lessons on p.lesson_id equals l.id
-                                join c in db.courses on l.course_id equals c.id
-                                where p.user_id == userId
-                                orderby p.completed_at descending
-                                select new ProgressItem
-                                {
-                                    CourseTitle = c.title,
-                                    LessonTitle = l.title,
-                                    Status = p.status,
-                                    Score = p.score.ToString(),
-                                    DateText = p.completed_at.HasValue
-                                        ? p.completed_at.Value.ToString("dd.MM.yyyy")
-                                        : "—"
-                                }).ToList();
+                    var raw = (from p in db.user_progress
+                               join l in db.lessons on p.lesson_id equals l.id
+                               join c in db.courses on l.course_id equals c.id
+                               where p.user_id == userId
+                               orderby p.completed_at descending
+                               select new
+                               {
+                                   CourseTitle = c.title,
+                                   LessonTitle = l.title,
+                                   p.status,
+                                   p.score,
+                                   p.completed_at
+                               }).ToList();
+
+                    var list = raw.Select(x => new ProgressItem
+                    {
+                        CourseTitle = x.CourseTitle,
+                        LessonTitle = x.LessonTitle,
+                        Status = x.status,
+                        Score = x.score.ToString(),
+                        DateText = x.completed_at.HasValue
+                            ? x.completed_at.Value.ToString("dd.MM.yyyy")
+                            : "—"
+                    }).ToList();
 
                     ProgressGrid.ItemsSource = list;
                     ProgressSummaryText.Text = list.Any()
-                        ? $"Всего записей: {list.Count}"
+                        ? "Всего записей: " + list.Count
                         : "Прогресс пока пуст. Начните проходить уроки!";
                 }
             }
@@ -320,17 +329,25 @@ namespace StPractic.Pages
                 {
                     int userId = MainWindow.CurrentUser.id;
 
-                    var list = (from r in db.reviews
-                                join c in db.courses on r.course_id equals c.id
-                                where r.user_id == userId
-                                orderby r.review_date descending
-                                select new ReviewItem
-                                {
-                                    CourseTitle = c.title,
-                                    Stars = new string('★', r.rating) + new string('☆', 5 - r.rating),
-                                    Comment = string.IsNullOrWhiteSpace(r.comment) ? "Без комментария" : r.comment,
-                                    DateText = r.review_date.ToString("dd.MM.yyyy")
-                                }).ToList();
+                    var raw = (from r in db.reviews
+                               join c in db.courses on r.course_id equals c.id
+                               where r.user_id == userId
+                               orderby r.review_date descending
+                               select new
+                               {
+                                   CourseTitle = c.title,
+                                   r.rating,
+                                   r.comment,
+                                   r.review_date
+                               }).ToList();
+
+                    var list = raw.Select(x => new ReviewItem
+                    {
+                        CourseTitle = x.CourseTitle,
+                        Stars = new string('★', x.rating) + new string('☆', 5 - x.rating),
+                        Comment = string.IsNullOrWhiteSpace(x.comment) ? "Без комментария" : x.comment,
+                        DateText = x.review_date.ToString("dd.MM.yyyy")
+                    }).ToList();
 
                     MyReviewsList.ItemsSource = list;
                     NoReviewsText.Visibility = list.Any() ? Visibility.Collapsed : Visibility.Visible;
@@ -380,18 +397,26 @@ namespace StPractic.Pages
                 {
                     int teacherId = MainWindow.CurrentUser.id;
 
-                    var list = (from e in db.enrollments
-                                join c in db.courses on e.course_id equals c.id
-                                join u in db.users on e.user_id equals u.id
-                                where c.teacher_id == teacherId
-                                orderby e.enrollment_date descending
-                                select new StudentItem
-                                {
-                                    FullName = u.full_name,
-                                    CourseTitle = c.title,
-                                    DateText = e.enrollment_date.ToString("dd.MM.yyyy"),
-                                    Status = e.status
-                                }).ToList();
+                    var raw = (from e in db.enrollments
+                               join c in db.courses on e.course_id equals c.id
+                               join u in db.users on e.user_id equals u.id
+                               where c.teacher_id == teacherId
+                               orderby e.enrollment_date descending
+                               select new
+                               {
+                                   FullName = u.full_name,
+                                   CourseTitle = c.title,
+                                   e.enrollment_date,
+                                   e.status
+                               }).ToList();
+
+                    var list = raw.Select(x => new StudentItem
+                    {
+                        FullName = x.FullName,
+                        CourseTitle = x.CourseTitle,
+                        DateText = x.enrollment_date.ToString("dd.MM.yyyy"),
+                        Status = x.status
+                    }).ToList();
 
                     StudentsGrid.ItemsSource = list;
                 }
@@ -441,16 +466,26 @@ namespace StPractic.Pages
             {
                 using (var db = new KIPLangEntities())
                 {
-                    var list = (from c in db.courses
-                                join u in db.users on c.teacher_id equals u.id
-                                select new CourseAdminItem
-                                {
-                                    Id = c.id,
-                                    Title = c.title,
-                                    Teacher = u.full_name,
-                                    Level = c.level,
-                                    PriceText = c.price.ToString("N0") + " ₽"
-                                }).ToList();
+                    // Сначала выгружаем в память, потом форматируем (ToString не переводится в SQL)
+                    var raw = (from c in db.courses
+                               join u in db.users on c.teacher_id equals u.id
+                               select new
+                               {
+                                   c.id,
+                                   c.title,
+                                   Teacher = u.full_name,
+                                   c.level,
+                                   c.price
+                               }).ToList();
+
+                    var list = raw.Select(x => new CourseAdminItem
+                    {
+                        Id = x.id,
+                        Title = x.title,
+                        Teacher = x.Teacher,
+                        Level = x.level,
+                        PriceText = x.price.ToString("N0") + " ₽"
+                    }).ToList();
 
                     AllCoursesGrid.ItemsSource = list;
                 }
@@ -467,17 +502,28 @@ namespace StPractic.Pages
             {
                 using (var db = new KIPLangEntities())
                 {
-                    var list = (from r in db.reviews
-                                join c in db.courses on r.course_id equals c.id
-                                join u in db.users on r.user_id equals u.id
-                                orderby r.review_date descending
-                                select new ModerationItem
-                                {
-                                    ReviewId = r.id,
-                                    Header = u.full_name + " → " + c.title + "  (" + r.rating + "/5)",
-                                    Comment = string.IsNullOrWhiteSpace(r.comment) ? "Без комментария" : r.comment,
-                                    DateText = r.review_date.ToString("dd.MM.yyyy")
-                                }).ToList();
+                    // IsNullOrWhiteSpace / ToString тоже нельзя внутри LINQ to Entities
+                    var raw = (from r in db.reviews
+                               join c in db.courses on r.course_id equals c.id
+                               join u in db.users on r.user_id equals u.id
+                               orderby r.review_date descending
+                               select new
+                               {
+                                   r.id,
+                                   UserName = u.full_name,
+                                   CourseTitle = c.title,
+                                   r.rating,
+                                   r.comment,
+                                   r.review_date
+                               }).ToList();
+
+                    var list = raw.Select(x => new ModerationItem
+                    {
+                        ReviewId = x.id,
+                        Header = x.UserName + " → " + x.CourseTitle + "  (" + x.rating + "/5)",
+                        Comment = string.IsNullOrWhiteSpace(x.comment) ? "Без комментария" : x.comment,
+                        DateText = x.review_date.ToString("dd.MM.yyyy")
+                    }).ToList();
 
                     ModerationList.ItemsSource = list;
                     NoModerationText.Visibility = list.Any() ? Visibility.Collapsed : Visibility.Visible;

@@ -197,57 +197,34 @@ namespace StPractic.Pages
                 return;
             }
 
-            if (MessageBox.Show(
-                    $"Вы действительно хотите записаться на курс «{_course.title}»?",
-                    "Подтверждение записи",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question) != MessageBoxResult.Yes)
-            {
-                return;
-            }
-
+            // Уже записан?
             try
             {
                 using (var db = new KIPLangEntities())
                 {
-                    // Проверяем ещё раз (на всякий случай)
-                    bool already = db.enrollments.Any(en =>
-                        en.user_id == currentUser.id && en.course_id == _courseId);
-
-                    if (already)
+                    if (db.enrollments.Any(en =>
+                        en.user_id == currentUser.id && en.course_id == _courseId))
                     {
                         MessageBox.Show("Вы уже записаны на этот курс.", "Информация");
                         LoadCourse();
                         return;
                     }
-
-                    // Новый id (если identity нет)
-                    int newId = db.enrollments.Any()
-                        ? db.enrollments.Max(en => en.id) + 1
-                        : 1;
-
-                    var enrollment = new enrollments
-                    {
-                        id = newId,
-                        user_id = currentUser.id,
-                        course_id = _courseId,
-                        enrollment_date = DateTime.Today,
-                        status = "active"
-                    };
-
-                    db.enrollments.Add(enrollment);
-                    db.SaveChanges();
-
-                    MessageBox.Show("Вы успешно записались на курс!", "Успех",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    LoadCourse(); // обновляем UI
                 }
             }
-            catch (Exception ex)
+            catch { /* игнорируем, окно оплаты всё равно проверит */ }
+
+            // Открываем окно оплаты
+            var payWin = new PaymentWindow(
+                _courseId,
+                currentUser.id,
+                _course?.title ?? "Курс",
+                _course?.price ?? 0);
+
+            payWin.Owner = Window.GetWindow(this);
+
+            if (payWin.ShowDialog() == true && payWin.PaymentSuccess)
             {
-                MessageBox.Show($"Ошибка при записи: {ex.Message}", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                LoadCourse(); // обновляем кнопку / бейдж
             }
         }
 
