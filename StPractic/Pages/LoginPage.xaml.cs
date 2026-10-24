@@ -12,6 +12,10 @@ namespace StPractic.Pages
             InitializeComponent();
         }
 
-       
+        public void SelectLoginTab()
+        {
+            TabLogin.SelectedIndex = 0;
+        }
+
     }
 }

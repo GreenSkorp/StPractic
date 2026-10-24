@@ -17,7 +17,7 @@
 
 
         <Border Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-            <TabControl Margin="20" MinWidth="340" MaxWidth="450" VerticalAlignment="Center">
+            <TabControl x:Name="TabLogin" Margin="20" MinWidth="340" MaxWidth="450" VerticalAlignment="Center">
                 <TabItem Header="Вход">
                     <local:LoginPageControl />
                 </TabItem>

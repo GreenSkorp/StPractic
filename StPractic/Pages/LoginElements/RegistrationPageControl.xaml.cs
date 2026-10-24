@@ -14,7 +14,6 @@ namespace StPractic.Pages.LoginElements
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            // 1. Проверка заполнения
             if (string.IsNullOrWhiteSpace(LoginTextBox.Text) || string.IsNullOrWhiteSpace(FioTextBox.Text) ||
                 string.IsNullOrWhiteSpace(EmailTextBox.Text) || string.IsNullOrWhiteSpace(PasswordBoxFirst.Password))
             {
@@ -22,7 +21,6 @@ namespace StPractic.Pages.LoginElements
                 return;
             }
 
-            // 2. Проверка пароля
             string password = PasswordBoxFirst.Password;
             if (password.Length < 6 || !password.Any(char.IsDigit) || !password.All(c => char.IsLetterOrDigit(c) && c < 128))
             {
@@ -36,7 +34,6 @@ namespace StPractic.Pages.LoginElements
                 return;
             }
 
-            // 3. Капча
             var captchaWin = new CaptchaWindow();
             if (captchaWin.ShowDialog() != true)
             {
@@ -44,7 +41,6 @@ namespace StPractic.Pages.LoginElements
                 return;
             }
 
-            // 4. Сохранение в БД
             try
             {
                 using (var db = new KIPLangEntities())
@@ -90,6 +86,7 @@ namespace StPractic.Pages.LoginElements
 
                 MessageBox.Show("Ошибка сохранения:\n" + details, "Ошибка");
             }
+            
         }
     }
 }

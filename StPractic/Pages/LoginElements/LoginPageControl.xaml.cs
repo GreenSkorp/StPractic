@@ -79,7 +79,7 @@ namespace StPractic.Pages.LoginElements
                     {
                         if (user.role == "Admin" || user.role == "Teacher")
                         {
-                            MessageBox.Show($"Вы вошли как {user.role}. (Страница профиля в разработке)");
+                            MessageBox.Show($"Вы вошли как {user.role}.");
                             navService.Navigate(new CourseCatalogPage());
                         }
                         else
