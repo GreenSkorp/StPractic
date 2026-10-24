@@ -82,15 +82,14 @@ namespace StPractic.Pages
                     if (db.lessons.Any(l => l.course_id == _courseId))
                         nextOrder = db.lessons.Where(l => l.course_id == _courseId).Max(l => l.order_num) + 1;
 
-                    db.lessons.Add(new lessons
-                    {
-                        course_id = _courseId,
-                        title = NewTitleBox.Text.Trim(),
-                        content = NewContentBox.Text.Trim(),
-                        order_num = nextOrder,
-                        duration = duration
-                    });
-                    db.SaveChanges();
+                    // INSERT без id — таблица lessons с IDENTITY
+                    db.Database.ExecuteSqlCommand(
+                        "INSERT INTO lessons (course_id, title, content, order_num, duration) VALUES (@p0, @p1, @p2, @p3, @p4)",
+                        _courseId,
+                        NewTitleBox.Text.Trim(),
+                        NewContentBox.Text.Trim(),
+                        nextOrder,
+                        duration);
                 }
 
                 NewTitleBox.Text = "";

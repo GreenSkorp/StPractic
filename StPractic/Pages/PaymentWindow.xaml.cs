@@ -109,7 +109,6 @@ namespace StPractic.Pages
                         return;
                     }
 
-                    // INSERT без id — корректно с IDENTITY
                     db.Database.ExecuteSqlCommand(
                         "INSERT INTO payments (user_id, course_id, amount, payment_date, status) VALUES (@p0, @p1, @p2, @p3, @p4)",
                         _userId, _courseId, _amount, DateTime.Today, "paid");

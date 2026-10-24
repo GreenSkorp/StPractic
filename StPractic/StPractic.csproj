@@ -120,6 +120,40 @@
     <Compile Include="Pages\PaymentWindow.xaml.cs">
       <DependentUpon>PaymentWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\UserElements\AchievementsControl.xaml.cs">
+      <DependentUpon>AchievementsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserElements\AdminAllCoursesControl.xaml.cs">
+      <DependentUpon>AdminAllCoursesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserElements\AdminModerationControl.xaml.cs">
+      <DependentUpon>AdminModerationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserElements\AdminStatsControl.xaml.cs">
+      <DependentUpon>AdminStatsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserElements\AdminUsersControl.xaml.cs">
+      <DependentUpon>AdminUsersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserElements\MyCoursesControl.xaml.cs">
+      <DependentUpon>MyCoursesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserElements\MyReviewsControl.xaml.cs">
+      <DependentUpon>MyReviewsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserElements\ProgressControl.xaml.cs">
+      <DependentUpon>ProgressControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserElements\TeacherCoursesControl.xaml.cs">
+      <DependentUpon>TeacherCoursesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserElements\TeacherStatsControl.xaml.cs">
+      <DependentUpon>TeacherStatsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserElements\TeacherStudentsControl.xaml.cs">
+      <DependentUpon>TeacherStudentsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserElements\UserProfileModels.cs" />
     <Compile Include="Pages\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
@@ -209,6 +243,50 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\UserElements\AchievementsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UserElements\AdminAllCoursesControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UserElements\AdminModerationControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UserElements\AdminStatsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UserElements\AdminUsersControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UserElements\MyCoursesControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UserElements\MyReviewsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UserElements\ProgressControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UserElements\TeacherCoursesControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UserElements\TeacherStatsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UserElements\TeacherStudentsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\UserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -273,6 +351,7 @@
     <Folder Include="res\Documents\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="res\KipLangScript.sql" />
     <Resource Include="Images\logo.png" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

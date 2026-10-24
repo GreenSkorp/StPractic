@@ -107,7 +107,6 @@ namespace StPractic.Pages
                 }
             }
 
-            // Используем именно CoursesListView вместо CoursesList
             CoursesListView.ItemsSource = filtered.ToList();
         }
 

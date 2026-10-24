@@ -1,0 +1,53 @@
+<UserControl x:Class="StPractic.Pages.UserElements.MyReviewsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+<Border Background="{DynamicResource BrushSurface}"
+                            BorderBrush="{DynamicResource BrushBorder}"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Padding="25"
+                            Margin="0,10,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Мои отзывы" FontSize="20" FontWeight="Bold"
+                                       Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,15"/>
+
+                            <ItemsControl x:Name="MyReviewsList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{DynamicResource BrushSurfaceAlt}"
+                                                BorderBrush="{DynamicResource BrushBorder}"
+                                                BorderThickness="1"
+                                                CornerRadius="8"
+                                                Padding="15"
+                                                Margin="0,0,0,10">
+                                            <StackPanel>
+                                                <Grid>
+                                                    <TextBlock Text="{Binding CourseTitle}" FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource BrushTextPrimary}"/>
+                                                    <TextBlock Text="{Binding Stars}" HorizontalAlignment="Right"
+                                                               Foreground="{DynamicResource BrushWarning}"/>
+                                                </Grid>
+                                                <TextBlock Text="{Binding Comment}" TextWrapping="Wrap"
+                                                           Foreground="{DynamicResource BrushTextSecondary}" Margin="0,8,0,0"/>
+                                                <TextBlock Text="{Binding DateText}" FontSize="12"
+                                                           Foreground="{DynamicResource BrushTextSecondary}" Margin="0,6,0,0"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <TextBlock x:Name="NoReviewsText"
+                                       Text="Вы ещё не оставляли отзывов"
+                                       FontSize="14"
+                                       Foreground="{DynamicResource BrushTextSecondary}"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,30,0,0"
+                                       Visibility="Collapsed"/>
+                        </StackPanel>
+                    </Border>
+</UserControl>

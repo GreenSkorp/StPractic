@@ -233,7 +233,6 @@ namespace StPractic.Pages
                 ? (Brush)FindResource("BrushSuccess")
                 : (Brush)FindResource("BrushDanger");
 
-            // Сохраняем результат теста (без явного id — IDENTITY)
             if (MainWindow.CurrentUser != null && _testId.HasValue)
             {
                 try
@@ -263,13 +262,11 @@ namespace StPractic.Pages
                 return;
             }
 
-            // Итоговый балл: среднее упражнений и теста (если есть)
             int finalScore = _exerciseScore;
             if (_testId.HasValue && TestResultText.Visibility == Visibility.Visible)
                 finalScore = (_exerciseScore + _testScore) / 2;
             else if (_testId.HasValue)
             {
-                // Тест не сдан — учитываем только упражнения
                 finalScore = _exerciseScore;
             }
 
@@ -279,7 +276,6 @@ namespace StPractic.Pages
                 {
                     int userId = MainWindow.CurrentUser.id;
 
-                    // Только SQL — обходим проблему IDENTITY / EDMX
                     int exists = db.Database.SqlQuery<int>(
                         "SELECT COUNT(*) FROM user_progress WHERE user_id = @p0 AND lesson_id = @p1",
                         userId, _lessonId).FirstOrDefault();
@@ -334,7 +330,6 @@ namespace StPractic.Pages
             }
             catch
             {
-                // достижения необязательны — не ломаем прохождение урока
             }
         }
 

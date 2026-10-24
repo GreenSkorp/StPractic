@@ -1,0 +1,133 @@
+<UserControl x:Class="StPractic.Pages.UserElements.TeacherStatsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+<Border Background="{DynamicResource BrushSurface}"
+                            BorderBrush="{DynamicResource BrushBorder}"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Padding="25"
+                            Margin="0,10,0,0">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <TextBlock Text="Статистика" FontSize="20" FontWeight="Bold"
+                                           Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,15"/>
+
+                                <!-- Карточки сводки -->
+                                <UniformGrid Columns="4" Margin="0,0,0,20">
+                                    <Border Background="{DynamicResource BrushSurfaceAlt}" CornerRadius="10"
+                                            Padding="16" Margin="0,0,10,0" BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                                        <StackPanel>
+                                            <TextBlock Text="Курсов" FontSize="12"
+                                                       Foreground="{DynamicResource BrushTextSecondary}"/>
+                                            <TextBlock x:Name="StatCoursesCount" Text="0" FontSize="28" FontWeight="Bold"
+                                                       Foreground="{DynamicResource BrushAccent}" Margin="0,6,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Background="{DynamicResource BrushSurfaceAlt}" CornerRadius="10"
+                                            Padding="16" Margin="0,0,10,0" BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                                        <StackPanel>
+                                            <TextBlock Text="Студентов" FontSize="12"
+                                                       Foreground="{DynamicResource BrushTextSecondary}"/>
+                                            <TextBlock x:Name="StatStudentsCount" Text="0" FontSize="28" FontWeight="Bold"
+                                                       Foreground="{DynamicResource BrushAccent}" Margin="0,6,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Background="{DynamicResource BrushSurfaceAlt}" CornerRadius="10"
+                                            Padding="16" Margin="0,0,10,0" BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                                        <StackPanel>
+                                            <TextBlock Text="Записей" FontSize="12"
+                                                       Foreground="{DynamicResource BrushTextSecondary}"/>
+                                            <TextBlock x:Name="StatEnrollCount" Text="0" FontSize="28" FontWeight="Bold"
+                                                       Foreground="{DynamicResource BrushAccent}" Margin="0,6,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Background="{DynamicResource BrushSurfaceAlt}" CornerRadius="10"
+                                            Padding="16" BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1">
+                                        <StackPanel>
+                                            <TextBlock Text="Ср. прогресс" FontSize="12"
+                                                       Foreground="{DynamicResource BrushTextSecondary}"/>
+                                            <TextBlock x:Name="StatAvgProgress" Text="0%" FontSize="28" FontWeight="Bold"
+                                                       Foreground="{DynamicResource BrushSuccess}" Margin="0,6,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+                                </UniformGrid>
+
+                                <TextBlock Text="Студенты по курсам" FontSize="16" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource BrushTextPrimary}" Margin="0,0,0,12"/>
+
+                                <!-- Диаграмма: горизонтальные столбцы -->
+                                <ItemsControl x:Name="CourseStatsChart">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,0,0,14">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="180"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="70"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Grid.Column="0" Text="{Binding Title}"
+                                                           VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                                                           Foreground="{DynamicResource BrushTextPrimary}"
+                                                           ToolTip="{Binding Title}"/>
+
+                                                <!-- Фон полосы -->
+                                                <Border Grid.Column="1" Height="22" CornerRadius="4"
+                                                        Background="{DynamicResource BrushSurfaceAlt}"
+                                                        Margin="10,0">
+                                                    <!-- Заполненная часть: ширина через ScaleTransform относительно MaxStudents -->
+                                                    <Border HorizontalAlignment="Left" CornerRadius="4"
+                                                            Background="{DynamicResource BrushAccent}"
+                                                            Width="{Binding BarWidth}" Height="22"/>
+                                                </Border>
+
+                                                <TextBlock Grid.Column="2" Text="{Binding StudentsText}"
+                                                           VerticalAlignment="Center" HorizontalAlignment="Right"
+                                                           Foreground="{DynamicResource BrushTextSecondary}"
+                                                           FontWeight="SemiBold"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <TextBlock x:Name="NoTeacherStatsText"
+                                           Text="Нет данных для диаграммы — создайте курсы и дождитесь записей студентов."
+                                           FontSize="13" Foreground="{DynamicResource BrushTextSecondary}"
+                                           Margin="0,10,0,0" Visibility="Collapsed" TextWrapping="Wrap"/>
+
+                                <TextBlock Text="Средний прогресс по курсам" FontSize="16" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource BrushTextPrimary}" Margin="0,20,0,12"/>
+
+                                <ItemsControl x:Name="ProgressStatsChart">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,0,0,14">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="180"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="70"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <TextBlock Grid.Column="0" Text="{Binding Title}"
+                                                           VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                                                           Foreground="{DynamicResource BrushTextPrimary}"/>
+
+                                                <ProgressBar Grid.Column="1" Value="{Binding Progress}" Maximum="100"
+                                                             Height="16" Margin="10,0" VerticalAlignment="Center"/>
+
+                                                <TextBlock Grid.Column="2" Text="{Binding ProgressText}"
+                                                           VerticalAlignment="Center" HorizontalAlignment="Right"
+                                                           Foreground="{DynamicResource BrushTextSecondary}"
+                                                           FontWeight="SemiBold"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+</UserControl>

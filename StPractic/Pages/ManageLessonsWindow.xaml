@@ -5,7 +5,7 @@
         WindowStartupLocation="CenterOwner"
         Background="{DynamicResource BrushBackground}">
 
-    <Grid Margin="20">
+    <Grid Margin="20" Cursor="">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

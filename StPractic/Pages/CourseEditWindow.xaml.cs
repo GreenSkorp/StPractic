@@ -56,7 +56,6 @@ namespace StPractic.Pages
                     if (c == null) return;
 
                     TitleBox.Text = c.title;
-                    // убираем маркер заморозки при редактировании
                     DescBox.Text = (c.description ?? "").Replace("<!--FROZEN-->", "").Trim();
                     LanguageCombo.SelectedValue = c.language_id;
                     PriceBox.Text = c.price.ToString("0");
@@ -136,19 +135,20 @@ namespace StPractic.Pages
                             return;
                         }
 
-                        db.courses.Add(new courses
-                        {
-                            title = TitleBox.Text.Trim(),
-                            description = DescBox.Text.Trim(),
-                            language_id = langId,
-                            teacher_id = MainWindow.CurrentUser.id,
-                            level = level,
-                            price = price,
-                            created_at = DateTime.Today
-                        });
+                        db.Database.ExecuteSqlCommand(
+                            "INSERT INTO courses (language_id, teacher_id, title, description, level, price, created_at) VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)",
+                            langId,
+                            MainWindow.CurrentUser.id,
+                            TitleBox.Text.Trim(),
+                            DescBox.Text.Trim(),
+                            level,
+                            price,
+                            DateTime.Today);
                     }
 
-                    db.SaveChanges();
+
+                    if (_courseId.HasValue)
+                        db.SaveChanges();
                 }
 
                 Saved = true;

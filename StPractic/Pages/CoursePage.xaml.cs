@@ -55,10 +55,8 @@ namespace StPractic.Pages
                         return;
                     }
 
-                    // Заголовок страницы
                     Title = $"Курс: {_course.title}";
 
-                    // Основные данные
                     CourseTitleText.Text = _course.title;
                     DescriptionText.Text = string.IsNullOrWhiteSpace(_course.description)
                         ? "Описание отсутствует."
@@ -173,7 +171,6 @@ namespace StPractic.Pages
             }
             else
             {
-                // Только студент может записаться (преподаватель и админ — нет)
                 if (currentUser.role == "User" || currentUser.role == "Студент" ||
                     string.IsNullOrEmpty(currentUser.role))
                 {
@@ -188,7 +185,6 @@ namespace StPractic.Pages
                 EnrolledBadge.Visibility = Visibility.Collapsed;
             }
 
-            // Форма отзыва — только для записанных
             UpdateReviewForm(db);
         }
 
@@ -202,7 +198,6 @@ namespace StPractic.Pages
                 return;
             }
 
-            // Уже записан?
             try
             {
                 using (var db = new KIPLangEntities())
@@ -216,9 +211,8 @@ namespace StPractic.Pages
                     }
                 }
             }
-            catch { /* игнорируем, окно оплаты всё равно проверит */ }
+            catch { }
 
-            // Открываем окно оплаты
             var payWin = new PaymentWindow(
                 _courseId,
                 currentUser.id,
@@ -229,7 +223,7 @@ namespace StPractic.Pages
 
             if (payWin.ShowDialog() == true && payWin.PaymentSuccess)
             {
-                LoadCourse(); // обновляем кнопку / бейдж
+                LoadCourse(); 
             }
         }
 
@@ -323,7 +317,6 @@ namespace StPractic.Pages
                         return;
                     }
 
-                    // INSERT без id — IDENTITY
                     db.Database.ExecuteSqlCommand(
                         "INSERT INTO reviews (user_id, course_id, rating, comment, review_date) VALUES (@p0, @p1, @p2, @p3, @p4)",
                         user.id, _courseId, rating, comment, DateTime.Today);

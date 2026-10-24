@@ -26,7 +26,6 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Логотип + название -->
                 <Button Grid.Column="0"
                         Background="Transparent"
                         BorderThickness="0"
@@ -43,7 +42,7 @@
                     </StackPanel>
                 </Button>
 
-                <!-- Тумблер темы по центру-справа от лого -->
+                <!-- Тумблер темы -->
                 <StackPanel Grid.Column="1"
                             Orientation="Horizontal"
                             VerticalAlignment="Center"
